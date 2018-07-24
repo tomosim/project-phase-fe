@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import { Button, StyleSheet, Text, View, TextInput } from "react-native";
 
-class Login extends Component {
-  state = {
-    username: "",
-    password: ""
+class Register extends Component {
+  state = { email: "", username: "", password: "" };
+
+  switchToLogin = () => {
+    this.props.switchLoginRegister();
   };
 
-  switchToRegister = () => {
-    this.props.switchLoginRegister();
+  handleEmailInput = e => {
+    this.setState({ email: e });
   };
 
   handleUsernameInput = e => {
@@ -19,13 +20,26 @@ class Login extends Component {
     this.setState({ password: e });
   };
 
-  handlePress = () => {
-    this.props.login(this.state.username, this.state.password);
+  addNewUser = (email, username, password) => {
+    //api.addNewUser()
   };
 
   render() {
     return (
       <View style={{ width: "90%" }}>
+        <TextInput
+          id="email"
+          style={{
+            height: 40,
+            borderColor: "gray",
+            borderWidth: 1,
+            marginBottom: 10
+          }}
+          onChangeText={this.handleEmailInput}
+          value={this.state.email}
+          placeholder={"email"}
+        />
+
         <TextInput
           id="username"
           style={{
@@ -47,25 +61,23 @@ class Login extends Component {
             borderWidth: 1,
             marginBottom: 10
           }}
-          secureTextEntry
           onChangeText={this.handlePasswordInput}
           value={this.state.password}
           placeholder={"password"}
-          clearTextOnFocus
         />
-
-        <Button
-          title="Login"
-          color="rgb(0,220,90)"
-          onPress={this.handlePress}
-        />
-
-        <Text style={styles.text}>New user?</Text>
 
         <Button
           title="Register"
           color="rgb(0,220,90)"
-          onPress={this.switchToRegister}
+          onPress={this.addNewUser}
+        />
+
+        <Text style={styles.text}>Already have an account?</Text>
+
+        <Button
+          title="Login"
+          color="rgb(0,220,90)"
+          onPress={this.switchToLogin}
         />
       </View>
     );
@@ -79,4 +91,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Login;
+export default Register;
