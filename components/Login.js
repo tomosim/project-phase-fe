@@ -11,12 +11,8 @@ class Login extends Component {
     this.props.switchLoginRegister();
   };
 
-  handleUsernameInput = e => {
-    this.setState({ username: e });
-  };
-
-  handlePasswordInput = e => {
-    this.setState({ password: e });
+  handleInput = (e, inputField) => {
+    this.setState({ [inputField]: e });
   };
 
   handlePress = () => {
@@ -28,27 +24,17 @@ class Login extends Component {
       <View style={{ width: "90%" }}>
         <TextInput
           id="username"
-          style={{
-            height: 40,
-            borderColor: "gray",
-            borderWidth: 1,
-            marginBottom: 10
-          }}
-          onChangeText={this.handleUsernameInput}
+          style={styles.input}
+          onChangeText={e => this.handleInput(e, "username")}
           value={this.state.username}
           placeholder={"username"}
         />
 
         <TextInput
           id="password"
-          style={{
-            height: 40,
-            borderColor: "gray",
-            borderWidth: 1,
-            marginBottom: 10
-          }}
+          style={styles.input}
           secureTextEntry
-          onChangeText={this.handlePasswordInput}
+          onChangeText={e => this.handleInput(e, "password")}
           value={this.state.password}
           placeholder={"password"}
           clearTextOnFocus
@@ -76,6 +62,13 @@ const styles = StyleSheet.create({
   text: {
     textAlign: "center",
     margin: 10
+  },
+  input: {
+    height: 40,
+    borderColor: "gray",
+    backgroundColor: "#F5FCFF",
+    borderBottomWidth: 1,
+    marginBottom: 10
   }
 });
 

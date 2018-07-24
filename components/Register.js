@@ -2,75 +2,140 @@ import React, { Component } from "react";
 import { Button, StyleSheet, Text, View, TextInput } from "react-native";
 
 class Register extends Component {
-  state = { email: "", username: "", password: "" };
+  state = {
+    email: "",
+    emailOK: false,
+    username: "",
+    password1: "",
+    password2: "",
+    chapter: 0
+  };
 
   switchToLogin = () => {
     this.props.switchLoginRegister();
   };
 
-  handleEmailInput = e => {
-    this.setState({ email: e });
-  };
-
-  handleUsernameInput = e => {
-    this.setState({ username: e });
-  };
-
-  handlePasswordInput = e => {
-    this.setState({ password: e });
+  handleInput = (e, inputField) => {
+    this.setState({ [inputField]: e });
+    inputField === "email"
+      ? /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+          e
+        )
+        ? this.setState({ emailOK: true })
+        : this.setState({ emailOK: false })
+      : null;
   };
 
   addNewUser = (email, username, password) => {
     //api.addNewUser()
   };
 
+  next = () => {
+    this.setState({ chapter: this.state.chapter + 1 });
+  };
+
+  back = () => {
+    this.setState({ chapter: this.state.chapter - 1 });
+  };
+
   render() {
     return (
       <View style={{ width: "90%" }}>
-        <TextInput
-          id="email"
-          style={{
-            height: 40,
-            borderColor: "gray",
-            borderWidth: 1,
-            marginBottom: 10
-          }}
-          onChangeText={this.handleEmailInput}
-          value={this.state.email}
-          placeholder={"email"}
-        />
+        {this.state.chapter === 0 && (
+          <View>
+            <Text>Please enter your email</Text>
+            <TextInput
+              id="email"
+              style={styles.input}
+              onChangeText={e => this.handleInput(e, "email")}
+              value={this.state.email}
+              placeholder={"email"}
+            />
+            <View style={styles.progress}>
+              {this.state.emailOK && (
+                <Button
+                  color="rgb(0,220,90)"
+                  title="Next"
+                  onPress={this.next}
+                />
+              )}
+            </View>
+          </View>
+        )}
 
-        <TextInput
-          id="username"
-          style={{
-            height: 40,
-            borderColor: "gray",
-            borderWidth: 1,
-            marginBottom: 10
-          }}
-          onChangeText={this.handleUsernameInput}
-          value={this.state.username}
-          placeholder={"username"}
-        />
+        {this.state.chapter === 1 && (
+          <View>
+            <Text>Please enter your desired username</Text>
+            <TextInput
+              id="username"
+              style={styles.input}
+              onChangeText={e => this.handleInput(e, "username")}
+              value={this.state.username}
+              placeholder={"username"}
+            />
+            <View style={styles.progress}>
+              <Button color="rgb(0,220,90)" title="Back" onPress={this.back} />
+              {this.state.username !== "" && (
+                <Button
+                  color="rgb(0,220,90)"
+                  title="Next"
+                  onPress={this.next}
+                />
+              )}
+            </View>
+          </View>
+        )}
 
-        <TextInput
-          id="password"
-          style={{
-            height: 40,
-            borderColor: "gray",
-            borderWidth: 1,
-            marginBottom: 10
-          }}
-          onChangeText={this.handlePasswordInput}
-          value={this.state.password}
-          placeholder={"password"}
-        />
+        {this.state.chapter === 2 && (
+          <View>
+            <Text>Please enter your desired password</Text>
+            <TextInput
+              id="password1"
+              style={styles.input}
+              onChangeText={e => this.handleInput(e, "password1")}
+              value={this.state.password1}
+              placeholder={"password"}
+              clearTextOnFocus
+              secureTextEntry
+            />
+            <View style={styles.progress}>
+              <Button color="rgb(0,220,90)" title="Back" onPress={this.back} />
+              {this.state.password1 !== "" && (
+                <Button
+                  color="rgb(0,220,90)"
+                  title="Next"
+                  onPress={this.next}
+                />
+              )}
+            </View>
+          </View>
+        )}
 
-        <Button
-          title="Register"
-          color="rgb(0,220,90)"
-          onPress={this.addNewUser}
-        />
+        {this.state.chapter === 3 && (
+          <View>
+            <Text>Please confirm your password</Text>
+            <TextInput
+              id="password2"
+              style={styles.input}
+              onChangeText={e => this.handleInput(e, "password2")}
+              value={this.state.password2}
+              placeholder={"confirm password"}
+              clearTextOnFocus
+              secureTextEntry
+            />
+            <View style={styles.progress}>
+              <Button color="rgb(0,220,90)" title="Back" onPress={this.back} />
+              {this.state.password1 === this.state.password2 && (
+                <Button
+                  color="rgb(0,220,90)"
+                  title="Register"
+                  color="rgb(0,220,90)"
+                  onPress={this.addNewUser}
+                />
+              )}
+            </View>
+          </View>
+        )}
 
         <Text style={styles.text}>Already have an account?</Text>
 
@@ -88,6 +153,17 @@ const styles = StyleSheet.create({
   text: {
     textAlign: "center",
     margin: 10
+  },
+  progress: {
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  input: {
+    height: 40,
+    borderColor: "gray",
+    backgroundColor: "#F5FCFF",
+    borderBottomWidth: 1,
+    marginBottom: 10
   }
 });
 
