@@ -9,36 +9,44 @@ import {
 class TransportCard extends Component {
   state = {};
 
-  missionStarter = transport => {
-    console.log(transport);
+  missionStarter = (transport, bool) => {
+    this.props.setModalVisible(transport, bool);
   };
 
   render() {
     return (
       <View style={styles.card}>
         <View style={styles.row}>
-          <TouchableWithoutFeedback onPress={() => this.missionStarter("walk")}>
+          <TouchableWithoutFeedback
+            onPress={() => this.missionStarter("walking", true)}
+          >
             <Image
               style={styles.icon}
               source={require("../assets/logos/walk.png")}
               resizeMode="contain"
             />
           </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={() => this.missionStarter("bike")}>
+          <TouchableWithoutFeedback
+            onPress={() => this.missionStarter("cycling", true)}
+          >
             <Image
               style={styles.icon}
               source={require("../assets/logos/bike.png")}
               resizeMode="contain"
             />
           </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={() => this.missionStarter("bus")}>
+          <TouchableWithoutFeedback
+            onPress={() => this.missionStarter("riding the bus", true)}
+          >
             <Image
               style={styles.icon}
               source={require("../assets/logos/bus.png")}
               resizeMode="contain"
             />
           </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={() => this.missionStarter("tram")}>
+          <TouchableWithoutFeedback
+            onPress={() => this.missionStarter("taking the tram", true)}
+          >
             <Image
               style={styles.icon}
               source={require("../assets/logos/tram.png")}
@@ -48,7 +56,7 @@ class TransportCard extends Component {
         </View>
         <View style={styles.row}>
           <TouchableWithoutFeedback
-            onPress={() => this.missionStarter("motorbike")}
+            onPress={() => this.missionStarter("riding a motorbike", true)}
           >
             <Image
               style={styles.icon}
@@ -57,7 +65,7 @@ class TransportCard extends Component {
             />
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback
-            onPress={() => this.missionStarter("electric_car")}
+            onPress={() => this.missionStarter("⚡️driving⚡️", true)}
           >
             <Image
               style={styles.icon}
@@ -66,7 +74,7 @@ class TransportCard extends Component {
             />
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback
-            onPress={() => this.missionStarter("train")}
+            onPress={() => this.missionStarter("riding the rails", true)}
           >
             <Image
               style={styles.icon}
@@ -74,7 +82,9 @@ class TransportCard extends Component {
               resizeMode="contain"
             />
           </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={() => this.missionStarter("taxi")}>
+          <TouchableWithoutFeedback
+            onPress={() => this.missionStarter("hailing a cab", true)}
+          >
             <Image
               style={styles.icon}
               source={require("../assets/logos/taxi.png")}
