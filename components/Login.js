@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { Button, StyleSheet, Text, View, TextInput } from "react-native";
+import auth from '../config/config'
 
 class Login extends Component {
   state = {
-    username: "",
+    email: "",
     password: ""
   };
 
@@ -15,19 +16,26 @@ class Login extends Component {
     this.setState({ [inputField]: e });
   };
 
-  handlePress = () => {
-    this.props.login(this.state.username, this.state.password);
-  };
+  //login functionality
+  loginUser = (email, password) => {
+    const { login } = this.props
+    auth
+    .signInAndRetrieveDataWithEmailAndPassword(email, password)
+    .then(() => {
+      login(email)
+    })
+    .catch(console.log)
+  }
 
   render() {
     return (
       <View style={{ width: "90%" }}>
         <TextInput
-          id="username"
+          id="email"
           style={styles.input}
-          onChangeText={e => this.handleInput(e, "username")}
-          value={this.state.username}
-          placeholder={"username"}
+          onChangeText={e => this.handleInput(e, "email")}
+          value={this.state.email}
+          placeholder={"email"}
         />
 
         <TextInput
@@ -43,7 +51,7 @@ class Login extends Component {
         <Button
           title="Login"
           color="rgb(0,220,90)"
-          onPress={this.handlePress}
+          onPress={() => this.loginUser(this.state.email, this.state.password)}
         />
 
         <Text style={styles.text}>New user?</Text>

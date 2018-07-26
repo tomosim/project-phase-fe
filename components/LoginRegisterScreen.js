@@ -19,11 +19,11 @@ class LoginRegisterScreen extends Component {
         />
         <View style={styles.card}>
           {!this.state.register && (
-            <Login switchLoginRegister={this.switchLoginRegister} />
+            <Login switchLoginRegister={this.switchLoginRegister} login={this.props.login}/>
           )}
 
           {this.state.register && (
-            <Register switchLoginRegister={this.switchLoginRegister} />
+            <Register switchLoginRegister={this.switchLoginRegister} signup={this.props.signup} />
           )}
         </View>
         <Image
