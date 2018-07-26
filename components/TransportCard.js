@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TouchableOpacity, View, Image, StyleSheet } from "react-native";
+import { TouchableOpacity, View, Image, StyleSheet, Text } from "react-native";
 
 class TransportCard extends Component {
   state = {};
@@ -11,6 +11,9 @@ class TransportCard extends Component {
   render() {
     return (
       <View style={styles.card}>
+        <View style={styles.cardTitle}>
+          <Text style={styles.title}>Start a mission</Text>
+        </View>
         <View style={styles.row}>
           <TouchableOpacity
             style={styles.button}
@@ -105,13 +108,15 @@ const styles = StyleSheet.create({
     height: 220
   },
   row: {
-    flex: 1,
+    flex: 3,
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
     width: "100%",
     margin: 1
   },
+  cardTitle: { flex: 1, marginTop: -10 },
+  title: { marginHorizontal: 20, fontSize: 20, color: "rgb(0,220,90)" },
   button: {
     backgroundColor: "green",
     height: "75%",
