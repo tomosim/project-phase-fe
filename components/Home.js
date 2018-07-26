@@ -1,17 +1,51 @@
-import React from "react";
+import React, { Component } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import TransportCard from "./TransportCard";
+import CounterModal from "./CounterModal";
 
-const Home = props => {
-  return (
-    <View style={styles.parentView}>
-      <Text style={styles.title}>e-missions</Text>
-      <View style={styles.container}>
-        <TransportCard />
+class Home extends Component {
+  state = {
+    modalVisible: false,
+    mode: "",
+    recording: false,
+    journey: { startTime: "", endTime: "", coords: [] }
+  };
+
+  toggleRecording = () => {
+    this.setState({ recording: !this.state.recording });
+  };
+
+  setModalVisible = (transport, bool) => {
+    console.log(transport, bool);
+    bool
+      ? this.setState({ modalVisible: bool, mode: transport })
+      : this.setState({ modalVisible: bool, mode: "" });
+  };
+
+  render() {
+    return (
+      <View style={styles.parentView}>
+        <Text style={styles.title}>e-missions</Text>
+        <View style={styles.container}>
+          <TransportCard
+            setModalVisible={(transport, bool) =>
+              this.setModalVisible(transport, bool)
+            }
+          />
+        </View>
+        <CounterModal
+          recording={this.state.recording}
+          toggleRecording={this.toggleRecording}
+          modalVisible={this.state.modalVisible}
+          modeOfTransport={this.state.mode}
+          setModalVisible={(transport, bool) =>
+            this.setModalVisible(transport, bool)
+          }
+        />
       </View>
-    </View>
-  );
-};
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   parentView: {
