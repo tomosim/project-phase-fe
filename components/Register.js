@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Button, StyleSheet, Text, View, TextInput } from "react-native";
+import auth from '../config/config'
+
 
 class Register extends Component {
   state = {
@@ -15,6 +17,7 @@ class Register extends Component {
     this.props.switchLoginRegister();
   };
 
+  //email validation
   handleInput = (e, inputField) => {
     this.setState({ [inputField]: e });
     inputField === "email"
@@ -26,10 +29,18 @@ class Register extends Component {
       : null;
   };
 
+  // create user via firebase
   addNewUser = (email, username, password) => {
-    //api.addNewUser()
+    const {signup} = this.props
+    auth
+      .createUserAndRetrieveDataWithEmailAndPassword(email, password)
+      .then(() => {
+        signup(email, username)
+      })
+      .catch(console.log)
   };
 
+  // changes the registration screens
   next = () => {
     this.setState({ chapter: this.state.chapter + 1 });
   };
@@ -39,6 +50,7 @@ class Register extends Component {
   };
 
   render() {
+
     return (
       <View style={{ width: "90%" }}>
         {this.state.chapter === 0 && (
@@ -130,7 +142,7 @@ class Register extends Component {
                   color="rgb(0,220,90)"
                   title="Register"
                   color="rgb(0,220,90)"
-                  onPress={this.addNewUser}
+                  onPress={() => this.addNewUser(this.state.email, this.state.username, this.state.password1)}
                 />
               )}
             </View>
