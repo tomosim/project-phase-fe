@@ -1,86 +1,94 @@
 import React, { Component } from "react";
-import {
-  TouchableWithoutFeedback,
-  View,
-  Image,
-  StyleSheet
-} from "react-native";
+import { TouchableOpacity, View, Image, StyleSheet, Text } from "react-native";
 
 class TransportCard extends Component {
   state = {};
 
-  missionStarter = transport => {
-    console.log(transport);
+  missionStarter = (transport, bool) => {
+    this.props.setModalVisible(transport, bool);
   };
 
   render() {
     return (
       <View style={styles.card}>
+        <View style={styles.cardTitle}>
+          <Text style={styles.title}>Start a mission</Text>
+        </View>
         <View style={styles.row}>
-          <TouchableWithoutFeedback onPress={() => this.missionStarter("walk")}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.missionStarter("foot 👣", true)}
+          >
             <Image
               style={styles.icon}
               source={require("../assets/logos/walk.png")}
-              resizeMode="contain"
             />
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={() => this.missionStarter("bike")}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.missionStarter("bicycle 🚲", true)}
+          >
             <Image
               style={styles.icon}
               source={require("../assets/logos/bike.png")}
-              resizeMode="contain"
             />
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={() => this.missionStarter("bus")}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.missionStarter("bus 🚌", true)}
+          >
             <Image
               style={styles.icon}
               source={require("../assets/logos/bus.png")}
-              resizeMode="contain"
             />
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={() => this.missionStarter("tram")}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.missionStarter("tram 🚊", true)}
+          >
             <Image
               style={styles.icon}
               source={require("../assets/logos/tram.png")}
-              resizeMode="contain"
             />
-          </TouchableWithoutFeedback>
+          </TouchableOpacity>
         </View>
         <View style={styles.row}>
-          <TouchableWithoutFeedback
-            onPress={() => this.missionStarter("motorbike")}
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.missionStarter("motorbike", true)}
           >
             <Image
               style={styles.icon}
               source={require("../assets/logos/motorbike.png")}
-              resizeMode="contain"
             />
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback
-            onPress={() => this.missionStarter("electric_car")}
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.missionStarter("electric car 🚗⚡️", true)}
           >
             <Image
               style={styles.icon}
               source={require("../assets/logos/electric_car.png")}
-              resizeMode="contain"
             />
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback
-            onPress={() => this.missionStarter("train")}
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.missionStarter("train 🚂", true)}
           >
             <Image
               style={styles.icon}
               source={require("../assets/logos/train.png")}
-              resizeMode="contain"
             />
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={() => this.missionStarter("taxi")}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.missionStarter("taxi 🚕", true)}
+          >
             <Image
               style={styles.icon}
               source={require("../assets/logos/taxi.png")}
-              resizeMode="contain"
             />
-          </TouchableWithoutFeedback>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -100,16 +108,24 @@ const styles = StyleSheet.create({
     height: 220
   },
   row: {
-    flex: 1,
+    flex: 3,
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
     width: "100%",
     margin: 1
   },
+  cardTitle: { flex: 1, marginTop: -10 },
+  title: { marginHorizontal: 20, fontSize: 20, color: "rgb(0,220,90)" },
+  button: {
+    backgroundColor: "green",
+    height: "75%",
+    aspectRatio: 1,
+    borderRadius: 20000
+  },
   icon: {
-    margin: 5,
-    width: "17%"
+    height: "100%",
+    aspectRatio: 1
   }
 });
 export default TransportCard;
