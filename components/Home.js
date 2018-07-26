@@ -4,14 +4,23 @@ import TransportCard from "./TransportCard";
 import CounterModal from "./CounterModal";
 
 class Home extends Component {
-  state = { modalVisible: false, mode: "" };
+  state = {
+    modalVisible: false,
+    mode: "",
+    recording: false,
+    journey: { startTime: "", endTime: "", coords: [] }
+  };
 
-  setModalVisible(transport, bool) {
+  toggleRecording = () => {
+    this.setState({ recording: !this.state.recording });
+  };
+
+  setModalVisible = (transport, bool) => {
     console.log(transport, bool);
     bool
       ? this.setState({ modalVisible: bool, mode: transport })
       : this.setState({ modalVisible: bool, mode: "" });
-  }
+  };
 
   render() {
     return (
@@ -25,6 +34,8 @@ class Home extends Component {
           />
         </View>
         <CounterModal
+          recording={this.state.recording}
+          toggleRecording={this.toggleRecording}
           modalVisible={this.state.modalVisible}
           modeOfTransport={this.state.mode}
           setModalVisible={(transport, bool) =>
