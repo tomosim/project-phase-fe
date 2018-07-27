@@ -31,7 +31,8 @@ class Register extends Component {
 
   // create user via firebase
   addNewUser = (email, username, password) => {
-    const {signup} = this.props
+    const { signup, loading } = this.props
+    loading()
     auth
       .createUserAndRetrieveDataWithEmailAndPassword(email, password)
       .then(() => {
