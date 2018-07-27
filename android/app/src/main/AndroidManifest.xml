@@ -10,7 +10,9 @@
       android:icon="@mipmap/ic_launcher"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
-
+      <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyD8DyASZ8DokJQ2vIhm_xScye9sJeI6TcU"/>
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme"

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import TransportCard from "./TransportCard";
 import CounterModal from "./CounterModal";
+import Map from "./Map";
 
 class Home extends Component {
   state = {
@@ -32,6 +33,7 @@ class Home extends Component {
               this.setModalVisible(transport, bool)
             }
           />
+          {/* <Map /> */}
         </View>
         <CounterModal
           recording={this.state.recording}
