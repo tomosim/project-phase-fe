@@ -1,19 +1,27 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 import TransportCard from "./TransportCard";
 import CounterModal from "./CounterModal";
+import MenuCard from "./MenuCard"
 
 class Home extends Component {
   state = {
     modalVisible: false,
     mode: "",
     recording: false,
-    journey: { startTime: "", endTime: "", coords: [] }
+    journey: { startTime: "", endTime: "", coords: [] },
+    menuVisible: false
   };
 
   toggleRecording = () => {
     this.setState({ recording: !this.state.recording });
   };
+
+  toggleMenu = () => {
+    this.setState({
+      menuVisible: !this.state.menuVisible
+    })
+  }
 
   setModalVisible = (transport, bool) => {
     console.log(transport, bool);
@@ -25,7 +33,16 @@ class Home extends Component {
   render() {
     return (
       <View style={styles.parentView}>
-        <Text style={styles.title}>e-missions</Text>
+       <View style={styles.menu}>
+          <Text style={styles.title}>e-missions</Text>
+          <TouchableOpacity onPress={() => this.toggleMenu()}>
+          <Image style={styles.burger} source={require("../assets/logos/burgerMenu.png")}/>
+          </TouchableOpacity>
+       </View>
+
+      {this.state.menuVisible && <MenuCard toggleMenu={this.toggleMenu}
+      logout={this.props.logout}/>}
+
         <View style={styles.container}>
           <TransportCard
             setModalVisible={(transport, bool) =>
@@ -42,12 +59,23 @@ class Home extends Component {
             this.setModalVisible(transport, bool)
           }
         />
-      </View>
+     </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  burger: {
+    flex: 1,
+    height: "100%",
+    aspectRatio: 1,
+    margin: 10
+  },
+  menu: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center"
+  },
   parentView: {
     flex: 1,
     flexDirection: "column",
@@ -55,14 +83,15 @@ const styles = StyleSheet.create({
     alignItems: "stretch"
   },
   title: {
-    flex: 1,
+    flex: 8,
     fontFamily: "Pacifico-Regular",
     fontSize: 48,
     color: "#F5FCFF",
     textAlign: "center",
     margin: -30,
     paddingBottom: 20,
-    elevation: 10
+    elevation: 10,
+    paddingLeft: 30
   },
   container: {
     flex: 6,

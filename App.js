@@ -13,7 +13,6 @@ export default class App extends Component<Props> {
     const newUser = {email, username, avatar}
     await api.createUser(newUser)
       .then((user) => {
-        console.log(user)
         this.setState({ currentUser: {
           username:user.username
         } });
@@ -25,7 +24,6 @@ export default class App extends Component<Props> {
   login = async (email) => {
     await api.fetchUserByEmail(email)
     .then((user) => {
-      console.log(user, '<<<<<<<<<<<')
       this.setState({currentUser: {
         username:user.username
       }})
@@ -33,11 +31,17 @@ export default class App extends Component<Props> {
     .catch(console.log)
   }
 
+  logout = () => {
+    this.setState({
+      currentUser: { username: '' }
+    })
+  }
+
   render() {
     return (
       <View style={styles.container}>
         {this.state.currentUser.username === "" && <LoginRegisterScreen login={this.login} signup={this.signup}/>}
-        {this.state.currentUser.username !== "" && <Home />}
+        {this.state.currentUser.username !== "" && <Home logout={this.logout}/>}
       </View>
     );
   }
