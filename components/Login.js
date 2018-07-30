@@ -25,7 +25,11 @@ class Login extends Component {
     .then(() => {
       login(email)
     })
-    .catch(console.log)
+    .catch(err => {
+      console.dir(err.code)
+      loading()
+    }
+    )
   }
 
   render() {
