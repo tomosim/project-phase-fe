@@ -31,6 +31,12 @@ allprojects {
             url 'https://maven.google.com/'
             name 'Google'
         }
+        maven {
+           url "$rootDir/../node_modules/react-native-background-geolocation/android/libs"
+        }
+        maven {
+           url "$rootDir/../node_modules/react-native-background-fetch/android/libs"
+        }
     }
 }
 
@@ -40,4 +46,6 @@ ext {
     compileSdkVersion = 26
     targetSdkVersion = 26
     supportLibVersion = "26.1.0"
+    googlePlayServicesVersion = "15.0.1" 
+
 }

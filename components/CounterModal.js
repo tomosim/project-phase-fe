@@ -36,7 +36,10 @@ const CounterModal = props => {
                 <Button
                   title="Let's go!"
                   color="rgb(0,220,90)"
-                  onPress={() => props.toggleRecording()}
+                  onPress={() => {
+                    props.trackLocation()
+                    props.toggleRecording()
+                  }}
                 />
               )}
               {props.recording && (
@@ -44,6 +47,7 @@ const CounterModal = props => {
                   title="Finish"
                   color="rgb(0,220,90)"
                   onPress={() => {
+                    props.trackLocationStop()
                     props.toggleRecording();
                     missionFinish("", false);
                   }}

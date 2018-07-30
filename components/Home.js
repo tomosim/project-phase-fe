@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
-import Permissions from 'react-native-permissions'
+import Permissions from 'react-native-permissions';
+import BackgroundGeolocation from "react-native-background-geolocation";
 import TransportCard from "./TransportCard";
 import CounterModal from "./CounterModal";
 import MenuCard from "./MenuCard"
@@ -16,14 +17,6 @@ class Home extends Component {
   };
 
   //geolocation and permissions
-    getLatLong = () => new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition((position) => {
-          resolve(position.coords);
-      }, (error) => {
-          reject(error);
-      }, { enableHighAccuracy: false, timeout: 30000, maximumAge: 10000 });
-    });
-
     _requestPermission = () => {
       Permissions.request('location').then(response => {
         // Returns once the user has chosen to 'allow' or to 'not allow' access
@@ -49,18 +42,86 @@ class Home extends Component {
       )
     }
 
-    async componentDidMount() {
-      Permissions.request('location').then(response => {
+    componentDidMount(){
+      Permissions.check('location').then(response => {
         // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
         this.setState({ locationPermission: response })
       })
-      const { latitude, longitude } = await this.getLatLong();
-      console.log(latitude, longitude)
     }
 
 
-
+    componentWillMount() {
+      ////
+      // 1.  Wire up event-listeners
+      //
   
+      // This handler fires whenever bgGeo receives a location update.
+      BackgroundGeolocation.on('location', this.onLocation, this.onError);
+    }
+
+    //listeners
+    onLocation(location) {
+      console.log('- [event] location: ', location);
+    }
+    onError(error) {
+      console.warn('- [event] location error ', error);
+    }
+    onActivityChange(activity) {
+      console.log('- [event] activitychange: ', activity);  // eg: 'on_foot', 'still', 'in_vehicle'
+    }
+    onProviderChange(provider) {
+      console.log('- [event] providerchange: ', provider);    
+    }
+    onMotionChange(location) {
+      console.log('- [event] motionchange: ', location.isMoving, location);
+    }
+
+    trackLocation = () => {
+      ////
+      // 2.  Execute #ready method (required)
+      //
+      console.log('i am in track location in home.js line 83')
+      BackgroundGeolocation.getCurrentPosition((location) => {
+        console.log('- current position: ', location);
+      }, (error) => {
+        console.log('- location error: ', error);
+      }, {samples: 1, persist: false});
+
+      BackgroundGeolocation.
+
+      const options = {
+        // Geolocation Config
+        desiredAccuracy: 0,
+        distanceFilter: 0,
+        locationUpdateInterval: 1000,
+        // Activity Recognition
+        stopTimeout: 2,
+        // Application config
+        debug: true, // <-- enable this hear sounds for background-geolocation life-cycle.
+        logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
+        stopOnTerminate: false,   // <-- Allow the background-service to continue tracking when user closes the app.
+        startOnBoot: true,        // <-- Auto start tracking when device is powered-up.
+      }
+
+      // BackgroundGeolocation.ready(options, (state) => {
+      //   console.log("- BackgroundGeolocation is configured and ready: ", state.enabled);
+  
+      //   if (!state.enabled) {
+      //     ////
+      //     // 3. Start tracking!
+      //     //
+      //     BackgroundGeolocation.start(function() {
+      //       console.log("- Start success");
+      //     });
+      //   }
+      // });
+    }
+  
+    // You must remove listeners when your component unmounts
+    trackLocationStop = () => {    
+      BackgroundGeolocation.removeListeners();
+    }
+      
   //menu for logout button
   toggleMenu = () => {
     this.setState({
@@ -108,11 +169,13 @@ class Home extends Component {
           setModalVisible={(transport, bool) =>
             this.setModalVisible(transport, bool)
           }
+          trackLocation = {this.trackLocation}
+          trackLocationStop = {this.trackLocationStop}
         />
      </View>
     );
-  }
-}
+  };
+};
 
 const styles = StyleSheet.create({
   burger: {

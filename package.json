@@ -11,6 +11,7 @@
     "react": "16.4.1",
     "react-devtools": "^3.2.3",
     "react-native": "0.56.0",
+    "react-native-background-geolocation": "^2.12.2",
     "react-native-firebase": "^4.3.8",
     "react-native-permissions": "^1.1.1",
     "react-native-stopwatch-timer": "0.0.20"
