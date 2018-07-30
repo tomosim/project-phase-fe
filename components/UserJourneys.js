@@ -2,7 +2,9 @@ import React from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
 
 const UserJourneys = (props) => {
-  const { journeys } = props.journeyObj.data
+  let totalKmTraveled;
+  if (props.journeyObj.data) {
+    const { journeys } = props.journeyObj.data
  
   const distance = (lat1, long1, lat2, long2) => {
     const deg2rad = Math.PI / 180
@@ -43,19 +45,30 @@ const UserJourneys = (props) => {
         timeArr
       }
     })
-    const distanceTravelled = missionsArrCoords.map(mission => {
-      console.dir(mission)
+
+    const missionDetails = missionsArrCoords.map(mission => {
       return getDistanceTraveled(mission)
     })
-
-    console.log(distanceTravelled)
+    
+    totalKmTraveled = missionDetails.reduce((acc, dist) => {
+      acc += dist
+      return acc
+    },0).toFixed(2)
   }
-
+  
+}
+  getLongLatCoords()
   return (
     <View>
-      <TouchableOpacity onPress={this.getLongLatCoords}>
+      <TouchableOpacity>
       <Text style={{ marginHorizontal: 20 }}>User journey stats</Text>
       </TouchableOpacity>
+      <View>
+        <Text style={{marginHorizontal: 20}}>{`Total ${totalKmTraveled}kms`}</Text>
+      </View>
+      <View>
+        <Text style={{marginHorizontal: 20}}>{`Total ${props.journeyObj.data.journeys.length} missions`}</Text>
+      </View>
     </View>
   );
 };
