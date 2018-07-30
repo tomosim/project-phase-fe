@@ -4,6 +4,7 @@ import LoginRegisterScreen from "./components/LoginRegisterScreen";
 import Home from "./components/Home";
 import * as api from './api';
 import Loading from "./components/Loading"
+import ErrorPopUp from './components/ErrorPopUp'
 
 export default class App extends Component<Props> {
   state = { 
@@ -18,14 +19,13 @@ export default class App extends Component<Props> {
     await api.createUser(newUser)
       .then((user) => {
         this.setState({ 
-          currentUser: {
-          username:user.username
-          },
+          currentUser: user.data.newUser,
           loading: false
          });
       })
       .catch(err => {
-        console.log(err)
+        // Future plan- send message to backend admin if this is fired.
+        ErrorPopUp(err)
         this.toggleLoading()
       })
   };
@@ -35,15 +35,12 @@ export default class App extends Component<Props> {
     await api.fetchUserByEmail(email)
     .then((user) => {
       this.setState({
-        currentUser: {
-          username:user.username,
-        },
+        currentUser: user.data.user,
         loading: false  
       })
     })
     .catch(err => {
-      console.log('catch me')
-      console.log(err)
+      ErrorPopUp(err)
       this.toggleLoading()
     })
   }
@@ -66,7 +63,7 @@ export default class App extends Component<Props> {
     return (
       <View style={styles.container}>
         {this.state.currentUser.username === "" && <LoginRegisterScreen login={this.login} signup={this.signup} loading={this.toggleLoading}/>}
-        {this.state.currentUser.username !== "" && <Home logout={this.logout}/>}
+        {this.state.currentUser.username !== "" && <Home logout={this.logout} userObj={this.state.currentUser}/>}
         {loading && <Loading />}
       </View>
     );

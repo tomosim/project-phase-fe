@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 import TransportCard from "./TransportCard";
 import CounterModal from "./CounterModal";
 import MenuCard from "./MenuCard"
+import UserStats from "./UserStats";
 
 class Home extends Component {
   state = {
@@ -50,6 +51,11 @@ class Home extends Component {
             }
           />
         </View>
+
+        <View>
+          <UserStats userObj={this.props.userObj}/>
+        </View>
+
         <CounterModal
           recording={this.state.recording}
           toggleRecording={this.toggleRecording}

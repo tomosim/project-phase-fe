@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Button, StyleSheet, Text, View, TextInput } from "react-native";
+import { Button, StyleSheet, Text, View, TextInput, Alert } from "react-native";
 import auth from '../config/config'
+import ErrorPopUp from './ErrorPopUp'
 
 class Login extends Component {
   state = {
@@ -26,8 +27,8 @@ class Login extends Component {
       login(email)
     })
     .catch(err => {
-      console.dir(err.code)
       loading()
+      ErrorPopUp(err.code)
     }
     )
   }
