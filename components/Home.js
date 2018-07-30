@@ -87,8 +87,6 @@ class Home extends Component {
         console.log('- location error: ', error);
       }, {samples: 1, persist: false});
 
-      BackgroundGeolocation.
-
       const options = {
         // Geolocation Config
         desiredAccuracy: 0,
