@@ -7,7 +7,7 @@ import Loading from "./components/Loading"
 
 export default class App extends Component<Props> {
   state = { 
-    currentUser: { username: "" }, 
+    currentUser: { username: "mouse1" }, 
     register: false,
     loading: false
   };
@@ -59,7 +59,7 @@ export default class App extends Component<Props> {
     this.setState({
       loading: !this.state.loading
     })
-  }
+  } 
 
   render() {
     const { loading } = this.state
