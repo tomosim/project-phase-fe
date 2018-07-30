@@ -7,7 +7,7 @@ import Loading from "./components/Loading"
 
 export default class App extends Component<Props> {
   state = { 
-    currentUser: { username: "mouse1" }, 
+    currentUser: {username: ''}, 
     register: false,
     loading: false
   };
@@ -18,9 +18,7 @@ export default class App extends Component<Props> {
     await api.createUser(newUser)
       .then((user) => {
         this.setState({ 
-          currentUser: {
-          username:user.username
-          },
+          currentUser: user.data.user,
           loading: false
          });
       })
@@ -35,9 +33,7 @@ export default class App extends Component<Props> {
     await api.fetchUserByEmail(email)
     .then((user) => {
       this.setState({
-        currentUser: {
-          username:user.username,
-        },
+        currentUser: user.data.user,
         loading: false  
       })
     })
@@ -66,7 +62,7 @@ export default class App extends Component<Props> {
     return (
       <View style={styles.container}>
         {this.state.currentUser.username === "" && <LoginRegisterScreen login={this.login} signup={this.signup} loading={this.toggleLoading}/>}
-        {this.state.currentUser.username !== "" && <Home logout={this.logout}/>}
+        {this.state.currentUser.username !== "" && <Home logout={this.logout} user={this.state.currentUser}/>}
         {loading && <Loading />}
       </View>
     );

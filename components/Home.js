@@ -10,12 +10,13 @@ class Home extends Component {
     modalVisible: false,
     mode: "",
     recording: false,
-    journey: { startTime: "", endTime: "", coords: [] },
     menuVisible: false,
     locationPermission: '',
+    coords: [],
+    currentJourney: null,
   };
 
-  //geolocation and permissions
+  //geolocation
     getLatLong = () => new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition((position) => {
           resolve(position.coords);
@@ -24,6 +25,36 @@ class Home extends Component {
       }, { enableHighAccuracy: false, timeout: 30000, maximumAge: 10000 });
     });
 
+    startCoords = async () => {
+      const { latitude, longitude } = await this.getLatLong();
+      const currentCoords = {latitude, longitude, timestamp: Date.now()}
+      this.setState({
+        coords: [...this.state.coords, currentCoords]
+      })
+    }
+
+    endCoords = async () => {
+      const { latitude, longitude } = await this.getLatLong();
+      const currentCoords = {latitude, longitude, timestamp: Date.now()}
+      this.setState({
+        coords: [...this.state.coords, currentCoords]
+      })
+      this.addJourney()
+    }   
+
+    addJourney = () => {
+      const newJourney = {
+        mode: this.state.mode,
+        coords: this.state.coords,
+        belongs_to: this.props.user._id
+      }
+      this.setState({
+        currentJourney: newJourney
+      })
+    }
+
+    //permissions for geolocation - component did mount alerts for permission
+    //when data is first installed, then stores in device's location
     _requestPermission = () => {
       Permissions.request('location').then(response => {
         // Returns once the user has chosen to 'allow' or to 'not allow' access
@@ -49,16 +80,16 @@ class Home extends Component {
       )
     }
 
-    async componentDidMount() {
+    componentDidMount() {
       Permissions.request('location').then(response => {
         // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
         this.setState({ locationPermission: response })
       })
-      const { latitude, longitude } = await this.getLatLong();
-      console.log(latitude, longitude)
+      Permissions.check('location').then(response => {
+        // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+        this.setState({ locationPermission: response })
+      })
     }
-
-
 
   
   //menu for logout button
@@ -73,14 +104,14 @@ class Home extends Component {
     this.setState({ recording: !this.state.recording });
   };
 
-  setModalVisible = (transport, bool) => {
-    console.log(transport, bool);
+  setModalVisible = (bool, transport) => {
     bool
       ? this.setState({ modalVisible: bool, mode: transport })
-      : this.setState({ modalVisible: bool, mode: "" });
+      : this.setState({ modalVisible: bool});
   };
 
   render() {
+    console.log(this.state.recording)
     return (
       <View style={styles.parentView}>
        <View style={styles.menu}>
@@ -95,8 +126,8 @@ class Home extends Component {
 
         <View style={styles.container}>
           <TransportCard
-            setModalVisible={(transport, bool) =>
-              this.setModalVisible(transport, bool)
+            setModalVisible={(bool, transport) =>
+              this.setModalVisible(bool, transport)
             }
           />
         </View>
@@ -105,9 +136,12 @@ class Home extends Component {
           toggleRecording={this.toggleRecording}
           modalVisible={this.state.modalVisible}
           modeOfTransport={this.state.mode}
-          setModalVisible={(transport, bool) =>
-            this.setModalVisible(transport, bool)
+          setModalVisible={(bool, transport) =>
+            this.setModalVisible(bool, transport)
           }
+          startCoords= {this.startCoords}
+          endCoords= {this.endCoords}
+
         />
      </View>
     );
