@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 import TransportCard from "./TransportCard";
 import CounterModal from "./CounterModal";
-import MenuCard from "./MenuCard";
+import MenuCard from "./MenuCard"
+import UserStats from "./UserStats";
 import JourneyOverviewModal from "./JourneyOverviewModal";
 
 class Home extends Component {
@@ -59,13 +60,14 @@ class Home extends Component {
               this.setModalVisible(transport, bool)
             }
           />
+          <UserStats userObj={this.props.userObj}/>
         </View>
 
         <JourneyOverviewModal
           journeyModalVisible={this.state.journeyModalVisible}
           setOverviewVisible={this.setOverviewVisible}
         />
-
+            
         <CounterModal
           recording={this.state.recording}
           toggleRecording={this.toggleRecording}
@@ -110,9 +112,8 @@ const styles = StyleSheet.create({
     paddingLeft: 30
   },
   container: {
-    flex: 6,
-    backgroundColor: "#F5FCFF",
-    width: "100%"
+    flex: 9,
+    backgroundColor: "#F5FCFF"
   }
 });
 export default Home;

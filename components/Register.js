@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, StyleSheet, Text, View, TextInput } from "react-native";
 import auth from '../config/config'
+import ErrorPopUp from './ErrorPopUp'
 
 
 class Register extends Component {
@@ -38,7 +39,10 @@ class Register extends Component {
       .then(() => {
         signup(email, username)
       })
-      .catch(console.log)
+      .catch(err => {
+        ErrorPopUp(err.code)
+        loading()
+      })
   };
 
   // changes the registration screens

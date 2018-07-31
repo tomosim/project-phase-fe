@@ -1,6 +1,7 @@
 import React from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 import auth from "../config/config"
+import ErrorPopUp from './ErrorPopUp'
 
 const MenuCard = (props) => {
   return (
@@ -13,7 +14,9 @@ const MenuCard = (props) => {
           props.logout()
         }
         )
-        .catch(console.log)
+        .catch(err => {
+          ErrorPopUp(err)
+        })
           }}>
         <Text>Logout</Text>    
       </TouchableOpacity>

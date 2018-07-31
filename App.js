@@ -2,42 +2,47 @@ import React, { Component } from "react";
 import { StyleSheet, View } from "react-native";
 import LoginRegisterScreen from "./components/LoginRegisterScreen";
 import Home from "./components/Home";
+
 import * as api from "./api";
+import Loading from "./components/Loading"
+import ErrorPopUp from './components/ErrorPopUp'
 
 export default class App extends Component<Props> {
   state = { currentUser: { username: "" }, register: false };
 
   // signup
   signup = async (email, username) => {
-    const avatar =
-      "https://images.pexels.com/photos/301448/pexels-photo-301448.jpeg?auto=compress&cs=tinysrgb&h=350";
-    const newUser = { email, username, avatar };
-    await api
-      .createUser(newUser)
-      .then(user => {
-        this.setState({
-          currentUser: {
-            username: user.username
-          }
-        });
+    const newUser = {email, username}
+    await api.createUser(newUser)
+      .then((user) => {
+        this.setState({ 
+          currentUser: user.data.newUser,
+          loading: false
+         });
+      })
+      .catch(err => {
+        // Future plan- send message to backend admin if this is fired.
+        ErrorPopUp(err)
+        this.toggleLoading()
+
       })
       .catch(console.log);
   };
 
   //login
-  login = async email => {
-    await api
-      .fetchUserByEmail(email)
-      .then(user => {
-        this.setState({
-          currentUser: {
-            username: user.username
-          }
-        });
+  login = async (email) => {
+    await api.fetchUserByEmail(email)
+    .then((user) => {
+      this.setState({
+        currentUser: user.data.user,
+        loading: false  
       })
-      .catch(console.log);
-  };
-
+    })
+    .catch(err => {
+      ErrorPopUp(err)
+      this.toggleLoading()
+    })
+  }
 
   logout = () => {
     this.setState({
@@ -56,13 +61,9 @@ export default class App extends Component<Props> {
     const { loading } = this.state
     return (
       <View style={styles.container}>
-        {this.state.currentUser.username === "" && (
-          <LoginRegisterScreen login={this.login} signup={this.signup} />
-        )}
-        {this.state.currentUser.username !== "" && (
-          <Home logout={this.logout} />
-        )}
-
+        {this.state.currentUser.username === "" && <LoginRegisterScreen login={this.login} signup={this.signup} loading={this.toggleLoading}/>}
+        {this.state.currentUser.username !== "" && <Home logout={this.logout} userObj={this.state.currentUser}/>}
+        {loading && <Loading />}
       </View>
     );
   }

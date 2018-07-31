@@ -6,4 +6,8 @@ export const createUser = (newUser) => {
 
 export const fetchUserByEmail = (email) => {
   return axios.get(`https://final-project-phase.herokuapp.com/api/users/${email}`);
+};
+
+export const getJourneysByUser = (id) => {
+  return axios.get(`https://final-project-phase.herokuapp.com/api/users/${id}/journeys`)
 }
