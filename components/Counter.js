@@ -1,17 +1,15 @@
 import React, { Component } from "react";
-import { Text, View, TouchableHighlight } from "react-native";
-import { Stopwatch, Timer } from "react-native-stopwatch-timer";
+import { View } from "react-native";
+import { Stopwatch } from "react-native-stopwatch-timer";
 
 class Counter extends Component {
   constructor(props) {
     super(props);
     this.state = {
       stopwatchStart: false,
-      totalDuration: 90000,
-      stopwatchReset: false
+      totalDuration: 90000
     };
     this.toggleStopwatch = this.toggleStopwatch.bind(this);
-    this.resetStopwatch = this.resetStopwatch.bind(this);
   }
   componentDidUpdate(prevProps) {
     if (prevProps !== this.props) {
@@ -21,34 +19,18 @@ class Counter extends Component {
 
   toggleStopwatch() {
     this.setState({
-      stopwatchStart: !this.state.stopwatchStart,
-      stopwatchReset: false
+      stopwatchStart: !this.state.stopwatchStart
     });
-  }
-
-  resetStopwatch() {
-    this.setState({ stopwatchStart: false, stopwatchReset: true });
-  }
-
-  getFormattedTime(time) {
-    this.currentTime = time;
   }
 
   render() {
     return (
       <View>
-        <Stopwatch
-          start={this.state.stopwatchStart}
-          reset={this.state.stopwatchReset}
-          options={options}
-          getTime={this.getFormattedTime}
-        />
+        <Stopwatch start={this.state.stopwatchStart} options={options} />
       </View>
     );
   }
 }
-
-const handleTimerComplete = () => alert("custom completion function");
 
 const options = {
   container: {

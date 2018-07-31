@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 import TransportCard from "./TransportCard";
 import CounterModal from "./CounterModal";
-import MenuCard from "./MenuCard"
+import MenuCard from "./MenuCard";
+import JourneyOverviewModal from "./JourneyOverviewModal";
 
 class Home extends Component {
   state = {
@@ -10,7 +11,8 @@ class Home extends Component {
     mode: "",
     recording: false,
     journey: { startTime: "", endTime: "", coords: [] },
-    menuVisible: false
+    menuVisible: false,
+    journeyModalVisible: false
   };
 
   toggleRecording = () => {
@@ -20,8 +22,8 @@ class Home extends Component {
   toggleMenu = () => {
     this.setState({
       menuVisible: !this.state.menuVisible
-    })
-  }
+    });
+  };
 
   setModalVisible = (transport, bool) => {
     console.log(transport, bool);
@@ -30,18 +32,26 @@ class Home extends Component {
       : this.setState({ modalVisible: bool, mode: "" });
   };
 
+  setOverviewVisible = () => {
+    this.setState({ journeyModalVisible: !this.state.journeyModalVisible });
+  };
+
   render() {
     return (
       <View style={styles.parentView}>
-       <View style={styles.menu}>
+        <View style={styles.menu}>
           <Text style={styles.title}>e-missions</Text>
           <TouchableOpacity onPress={() => this.toggleMenu()}>
-          <Image style={styles.burger} source={require("../assets/logos/burgerMenu.png")}/>
+            <Image
+              style={styles.burger}
+              source={require("../assets/logos/burgerMenu.png")}
+            />
           </TouchableOpacity>
-       </View>
+        </View>
 
-      {this.state.menuVisible && <MenuCard toggleMenu={this.toggleMenu}
-      logout={this.props.logout}/>}
+        {this.state.menuVisible && (
+          <MenuCard toggleMenu={this.toggleMenu} logout={this.props.logout} />
+        )}
 
         <View style={styles.container}>
           <TransportCard
@@ -50,6 +60,12 @@ class Home extends Component {
             }
           />
         </View>
+
+        <JourneyOverviewModal
+          journeyModalVisible={this.state.journeyModalVisible}
+          setOverviewVisible={this.setOverviewVisible}
+        />
+
         <CounterModal
           recording={this.state.recording}
           toggleRecording={this.toggleRecording}
@@ -59,7 +75,7 @@ class Home extends Component {
             this.setModalVisible(transport, bool)
           }
         />
-     </View>
+      </View>
     );
   }
 }
@@ -80,7 +96,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     justifyContent: "flex-start",
-    alignItems: "stretch"
+    width: "100%"
   },
   title: {
     flex: 8,
@@ -95,7 +111,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 6,
-    backgroundColor: "#F5FCFF"
+    backgroundColor: "#F5FCFF",
+    width: "100%"
   }
 });
 export default Home;
