@@ -2,16 +2,13 @@ import React, { Component } from "react";
 import { StyleSheet, View } from "react-native";
 import LoginRegisterScreen from "./components/LoginRegisterScreen";
 import Home from "./components/Home";
-import * as api from './api';
+
+import * as api from "./api";
 import Loading from "./components/Loading"
 import ErrorPopUp from './components/ErrorPopUp'
 
 export default class App extends Component<Props> {
-  state = { 
-    currentUser: { username: "" }, 
-    register: false,
-    loading: false
-  };
+  state = { currentUser: { username: "" }, register: false };
 
   // signup
   signup = async (email, username) => {
@@ -27,7 +24,9 @@ export default class App extends Component<Props> {
         // Future plan- send message to backend admin if this is fired.
         ErrorPopUp(err)
         this.toggleLoading()
+
       })
+      .catch(console.log);
   };
 
   //login
@@ -47,9 +46,9 @@ export default class App extends Component<Props> {
 
   logout = () => {
     this.setState({
-      currentUser: { username: '' }
-    })
-  }
+      currentUser: { username: "" }
+    });
+  };
 
   // displays a default loading screen when loading content
   toggleLoading = () => {
@@ -88,5 +87,3 @@ const styles = StyleSheet.create({
     backgroundColor: "rgb(0,220,90)"
   }
 });
-
-
