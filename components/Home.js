@@ -4,6 +4,7 @@ import Permissions from 'react-native-permissions'
 import TransportCard from "./TransportCard";
 import CounterModal from "./CounterModal";
 import MenuCard from "./MenuCard"
+import * as api from "../api"
 
 class Home extends Component {
   state = {
@@ -14,6 +15,7 @@ class Home extends Component {
     locationPermission: '',
     coords: [],
     currentJourney: null,
+    loggedJourney: null
   };
 
   //geolocation
@@ -25,33 +27,49 @@ class Home extends Component {
       }, { enableHighAccuracy: false, timeout: 30000, maximumAge: 10000 });
     });
 
-    startCoords = async () => {
-      const { latitude, longitude } = await this.getLatLong();
-      const currentCoords = {latitude, longitude, timestamp: Date.now()}
-      this.setState({
-        coords: [...this.state.coords, currentCoords]
-      })
+    startCoords = () => {
+      this.getLatLong()
+        .then((coords) => {
+          const {latitude, longitude} = coords;
+          const currentCoords = {latitude, longitude, timestamp: Date.now()}
+          this.setState({
+            coords: [...this.state.coords, currentCoords]
+          })
+        })
+        .catch(console.log)      
     }
 
-    endCoords = async () => {
-      const { latitude, longitude } = await this.getLatLong();
-      const currentCoords = {latitude, longitude, timestamp: Date.now()}
-      this.setState({
-        coords: [...this.state.coords, currentCoords]
-      })
-      this.addJourney()
+    endCoords = () => {
+      this.getLatLong()
+        .then((newCoords) => {
+          const {latitude, longitude} = newCoords;
+          const currentCoords = {latitude, longitude, timestamp: Date.now()}
+          this.setState({
+            coords: [...this.state.coords, currentCoords]
+          })
+          const newJourney = {
+            mode: this.state.mode,
+            route: this.state.coords,
+            belongs_to: this.props.user._id
+          }
+          console.log(newJourney, 'from first .then')
+          return newJourney
+        })
+        .then((newJourney) => {
+          console.log(newJourney, 'from second .then')
+          return api.createJourney(newJourney)    
+        })
+        .then((data) => {
+          console.log(data)
+          const {newJourney} = data.data
+          this.setState({
+            currentJourney: newJourney
+          })
+          console.log(this.state.currentJourney)
+        })
+        .catch(console.log)  
+      
     }   
-
-    addJourney = () => {
-      const newJourney = {
-        mode: this.state.mode,
-        coords: this.state.coords,
-        belongs_to: this.props.user._id
-      }
-      this.setState({
-        currentJourney: newJourney
-      })
-    }
 
     //permissions for geolocation - component did mount alerts for permission
     //when data is first installed, then stores in device's location
@@ -111,7 +129,6 @@ class Home extends Component {
   };
 
   render() {
-    console.log(this.state.recording)
     return (
       <View style={styles.parentView}>
        <View style={styles.menu}>
