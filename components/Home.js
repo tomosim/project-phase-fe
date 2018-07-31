@@ -29,9 +29,9 @@ class Home extends Component {
 
     startCoords = () => {
       this.getLatLong()
-        .then((coords) => {
-          const {latitude, longitude} = coords;
-          const currentCoords = {latitude, longitude, timestamp: Date.now()}
+        .then((newCoords) => {
+          const {latitude, longitude} = newCoords;
+          const currentCoords = {lat: latitude, long: longitude, time: Date.now()}
           this.setState({
             coords: [...this.state.coords, currentCoords]
           })
@@ -42,8 +42,9 @@ class Home extends Component {
     endCoords = () => {
       this.getLatLong()
         .then((newCoords) => {
+          console.log(newCoords)
           const {latitude, longitude} = newCoords;
-          const currentCoords = {latitude, longitude, timestamp: Date.now()}
+          const currentCoords = {lat: longitude, long: longitude, time: Date.now()}
           this.setState({
             coords: [...this.state.coords, currentCoords]
           })
@@ -59,13 +60,13 @@ class Home extends Component {
           console.log(newJourney, 'from second .then')
           return api.createJourney(newJourney)    
         })
-        .then((data) => {
-          console.log(data)
-          const {newJourney} = data.data
+        .then((res) => {
+          console.log(res)
+          const {newJourney} = res.data
           this.setState({
             currentJourney: newJourney
           })
-          console.log(this.state.currentJourney)
+          console.log(newJourney)
         })
         .catch(console.log)  
       
