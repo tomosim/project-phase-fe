@@ -3,8 +3,8 @@ import { Button, Text, View, Modal, StyleSheet } from "react-native";
 import Counter from "./Counter";
 
 const CounterModal = props => {
-  missionFinish = (transport, bool) => {
-    props.setModalVisible(transport, bool);
+  missionFinish = (bool) => {
+    props.setModalVisible(bool);
   };
 
   return (
@@ -14,7 +14,7 @@ const CounterModal = props => {
         transparent={true}
         visible={props.modalVisible}
         onRequestClose={() => {
-          missionFinish("", false);
+          missionFinish(false);
         }}
       >
         <View style={styles.modalBackground}>
@@ -36,16 +36,22 @@ const CounterModal = props => {
                 <Button
                   title="Let's go!"
                   color="rgb(0,220,90)"
-                  onPress={() => props.toggleRecording()}
+                  onPress={() => {
+                    props.startCoords()
+                    props.toggleRecording()
+                  }}
                 />
               )}
+              
               {props.recording && (
                 <Button
                   title="Finish"
                   color="rgb(0,220,90)"
                   onPress={() => {
+                    props.endCoords()
+                    // props.addJourney()
                     props.toggleRecording();
-                    missionFinish("", false);
+                    missionFinish(false);
                   }}
                 />
               )}

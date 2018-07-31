@@ -4,8 +4,8 @@ import { TouchableOpacity, View, Image, StyleSheet, Text } from "react-native";
 class TransportCard extends Component {
   state = {};
 
-  missionStarter = (transport, bool) => {
-    this.props.setModalVisible(transport, bool);
+  missionStarter = (bool, transport) => {
+    this.props.setModalVisible(bool, transport);
   };
 
   render() {
@@ -17,7 +17,7 @@ class TransportCard extends Component {
         <View style={styles.row}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.missionStarter("foot 👣", true)}
+            onPress={() => this.missionStarter(true, "foot 👣")}
           >
             <Image
               style={styles.icon}
@@ -26,7 +26,7 @@ class TransportCard extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.missionStarter("bicycle 🚲", true)}
+            onPress={() => this.missionStarter(true, "bicycle 🚲")}
           >
             <Image
               style={styles.icon}
@@ -35,7 +35,7 @@ class TransportCard extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.missionStarter("bus 🚌", true)}
+            onPress={() => this.missionStarter(true, "bus 🚌")}
           >
             <Image
               style={styles.icon}
@@ -44,7 +44,7 @@ class TransportCard extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.missionStarter("tram 🚊", true)}
+            onPress={() => this.missionStarter(true, "tram 🚊")}
           >
             <Image
               style={styles.icon}
@@ -55,7 +55,7 @@ class TransportCard extends Component {
         <View style={styles.row}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.missionStarter("motorbike", true)}
+            onPress={() => this.missionStarter(true, "motorbike")}
           >
             <Image
               style={styles.icon}
@@ -64,7 +64,7 @@ class TransportCard extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.missionStarter("electric car 🚗⚡️", true)}
+            onPress={() => this.missionStarter(true, "electric car 🚗⚡️")}
           >
             <Image
               style={styles.icon}
@@ -73,7 +73,7 @@ class TransportCard extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.missionStarter("train 🚂", true)}
+            onPress={() => this.missionStarter(true, "train 🚂")}
           >
             <Image
               style={styles.icon}
@@ -82,7 +82,7 @@ class TransportCard extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.missionStarter("taxi 🚕", true)}
+            onPress={() => this.missionStarter(true, "taxi 🚕")}
           >
             <Image
               style={styles.icon}

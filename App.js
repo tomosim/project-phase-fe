@@ -8,7 +8,12 @@ import Loading from "./components/Loading"
 import ErrorPopUp from './components/ErrorPopUp'
 
 export default class App extends Component<Props> {
-  state = { currentUser: { username: "" }, register: false };
+
+  state = { 
+    currentUser: {username: ''}, 
+    register: false,
+    loading: false
+  };
 
   // signup
   signup = async (email, username) => {
@@ -16,6 +21,7 @@ export default class App extends Component<Props> {
     await api.createUser(newUser)
       .then((user) => {
         this.setState({ 
+          //currentUser: user.data.user,  Vel's 
           currentUser: user.data.newUser,
           loading: false
          });
@@ -55,14 +61,18 @@ export default class App extends Component<Props> {
     this.setState({
       loading: !this.state.loading
     })
-  }
+  } 
 
   render() {
     const { loading } = this.state
     return (
       <View style={styles.container}>
         {this.state.currentUser.username === "" && <LoginRegisterScreen login={this.login} signup={this.signup} loading={this.toggleLoading}/>}
-        {this.state.currentUser.username !== "" && <Home logout={this.logout} userObj={this.state.currentUser}/>}
+
+        {this.state.currentUser.username !== "" && <Home logout={this.logout} user={this.state.currentUser}/>}
+
+        //{this.state.currentUser.username !== "" && <Home logout={this.logout} userObj={this.state.currentUser}/>}
+
         {loading && <Loading />}
       </View>
     );
