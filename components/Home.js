@@ -17,7 +17,7 @@ class Home extends Component {
     locationPermission: '',
     coords: [],
     currentJourney: null,
-    loggedJourney: null
+    loggedJourney: null,
     journey: { startTime: "", endTime: "", coords: [] }, //Is this used?
     journeyModalVisible: false
 
@@ -161,7 +161,7 @@ class Home extends Component {
               this.setModalVisible(bool, transport)
             }
           />
-          <UserStats userObj={this.props.userObj}/>
+          <UserStats user={this.props.user}/>
         </View>
 
         <JourneyOverviewModal

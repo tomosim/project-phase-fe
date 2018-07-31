@@ -71,7 +71,7 @@ export default class App extends Component<Props> {
 
         {this.state.currentUser.username !== "" && <Home logout={this.logout} user={this.state.currentUser}/>}
 
-        //{this.state.currentUser.username !== "" && <Home logout={this.logout} userObj={this.state.currentUser}/>}
+        {/* //{this.state.currentUser.username !== "" && <Home logout={this.logout} userObj={this.state.currentUser}/>} */}
 
         {loading && <Loading />}
       </View>

@@ -9,7 +9,7 @@ class UserStats extends Component {
   };
 
 componentDidMount() {
-  this.getUserJourneys(this.props.userObj._id)
+  this.getUserJourneys(this.props.user._id)
 }
 
 
@@ -22,7 +22,7 @@ getUserJourneys = (id) => {
   })
 }
   render() {
-    const { username, achievements, avatar, xp, _id } = this.props.userObj
+    const { username, achievements, avatar, xp, _id } = this.props.user
     return (
       <View style={styles.card}>
 
