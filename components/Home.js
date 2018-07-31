@@ -5,17 +5,22 @@ import TransportCard from "./TransportCard";
 import CounterModal from "./CounterModal";
 import MenuCard from "./MenuCard"
 import * as api from "../api"
+import UserStats from "./UserStats";
+import JourneyOverviewModal from "./JourneyOverviewModal";
 
 class Home extends Component {
   state = {
     modalVisible: false,
     mode: "",
     recording: false,
-    menuVisible: false,
+    menuVisible: false, 
     locationPermission: '',
     coords: [],
     currentJourney: null,
     loggedJourney: null
+    journey: { startTime: "", endTime: "", coords: [] }, //Is this used?
+    journeyModalVisible: false
+
   };
 
   //geolocation
@@ -115,8 +120,8 @@ class Home extends Component {
   toggleMenu = () => {
     this.setState({
       menuVisible: !this.state.menuVisible
-    })
-  }
+    });
+  };
 
   //counter modal visible and if recording
   toggleRecording = () => {
@@ -129,18 +134,26 @@ class Home extends Component {
       : this.setState({ modalVisible: bool});
   };
 
+  setOverviewVisible = () => {
+    this.setState({ journeyModalVisible: !this.state.journeyModalVisible });
+  };
+
   render() {
     return (
       <View style={styles.parentView}>
-       <View style={styles.menu}>
+        <View style={styles.menu}>
           <Text style={styles.title}>e-missions</Text>
           <TouchableOpacity onPress={() => this.toggleMenu()}>
-          <Image style={styles.burger} source={require("../assets/logos/burgerMenu.png")}/>
+            <Image
+              style={styles.burger}
+              source={require("../assets/logos/burgerMenu.png")}
+            />
           </TouchableOpacity>
-       </View>
+        </View>
 
-      {this.state.menuVisible && <MenuCard toggleMenu={this.toggleMenu}
-      logout={this.props.logout}/>}
+        {this.state.menuVisible && (
+          <MenuCard toggleMenu={this.toggleMenu} logout={this.props.logout} />
+        )}
 
         <View style={styles.container}>
           <TransportCard
@@ -148,7 +161,14 @@ class Home extends Component {
               this.setModalVisible(bool, transport)
             }
           />
+          <UserStats userObj={this.props.userObj}/>
         </View>
+
+        <JourneyOverviewModal
+          journeyModalVisible={this.state.journeyModalVisible}
+          setOverviewVisible={this.setOverviewVisible}
+        />
+            
         <CounterModal
           recording={this.state.recording}
           toggleRecording={this.toggleRecording}
@@ -161,7 +181,7 @@ class Home extends Component {
           endCoords= {this.endCoords}
 
         />
-     </View>
+      </View>
     );
   }
 }
@@ -182,7 +202,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     justifyContent: "flex-start",
-    alignItems: "stretch"
+    width: "100%"
   },
   title: {
     flex: 8,
@@ -196,7 +216,7 @@ const styles = StyleSheet.create({
     paddingLeft: 30
   },
   container: {
-    flex: 6,
+    flex: 9,
     backgroundColor: "#F5FCFF"
   }
 });
