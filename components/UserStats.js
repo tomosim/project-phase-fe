@@ -61,7 +61,6 @@ const styles = StyleSheet.create({
     paddingBottom: 3,
     elevation: 1,
     borderRadius: 5,
-    height: 220
   },
   row: {
     flex: 3,

@@ -50,9 +50,6 @@ class Home extends Component {
               this.setModalVisible(transport, bool)
             }
           />
-        </View>
-
-        <View>
           <UserStats userObj={this.props.userObj}/>
         </View>
 
@@ -100,7 +97,7 @@ const styles = StyleSheet.create({
     paddingLeft: 30
   },
   container: {
-    flex: 6,
+    flex: 9,
     backgroundColor: "#F5FCFF"
   }
 });

@@ -2,16 +2,25 @@ import React from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
 
 const UserJourneys = (props) => {
+  const millisecondsInAWeek = 604800000;
   let totalKmTraveled;
+  let xp;
+  let xpLast7Days;
+  let xpLast4Weeks;
   let { journeys } = props.journeyObj.data
   
-  // filters out incorrectly formatted route data. If missed by backend model
-  // journeys = journeys.reduce((acc, journey) => {
-  //   if (journey.route.length > 0 && journey.route[0] !== undefined && journey.route[0].lat !== undefined) {
-  //     acc.push(journey)
-  //   }
-  //   return acc;
-  // },[])
+    if (journeys[0].route.length < 1) {
+      console.log('user journey data not complete - UserJourney.js')
+      console.log('route length')
+    }
+    if (journeys[0].route[0] === undefined) {
+      console.log('user journey data not complete - UserJourney.js')
+      console.log('route undefined')
+    }
+    if (journeys[0].route[0].lat === undefined) {
+      console.log('user journey data not complete - UserJourney.js')
+      console.log('coords undefined')
+    }
 
  
   const distance = (lat1, long1, lat2, long2) => {
@@ -66,7 +75,6 @@ const UserJourneys = (props) => {
       return getDistanceBetweenCoordinates(mission)
     })
 
-
     // totalMissionDistance is an array of the total distance covered for each mission
     const totalMissionDistance = missionDetails.map(mission => {
       return mission.reduce((acc,dist) =>{
@@ -75,10 +83,12 @@ const UserJourneys = (props) => {
       },0)
     })
 
-    // totalPointsPerMissionArr is the total distance for each mission multiplied by it's mode ratio.
+    // totalPointsPerMissionArr is the points scored for each mission
     const totalPointsPerMissionArr = missionDetails.map((mission, index) => {
       let carbonRatio;
       let totalPoints = 0;
+      let last7DaysPoints = 0;
+      let last4WeeksPoints = 0;
 
       mission.forEach(dist => {
         switch(journeys[index].mode) {
@@ -91,7 +101,6 @@ const UserJourneys = (props) => {
             break;
           case 'bus':
           case 'bus 🚌':
-          case 'bus 🚌 ':
             carbonRatio = 0.069;
             break;
           case 'tram':
@@ -117,31 +126,51 @@ const UserJourneys = (props) => {
           default:
             console.log(journeys[index].mode, 'is a mode not in switch statement - UserJourneys.js')
         }
-        totalPoints +=  (mission - (mission * carbonRatio))
+        const baseline = mission * 0.183;
+        const yourTrip = mission * carbonRatio;
+        totalPoints += (baseline - yourTrip);
       })
       return totalPoints
     })
-    console.log(totalPointsPerMissionArr)
+
+    // xp is the sum of all missions points. To 3 decimal places
+    xp = totalPointsPerMissionArr.reduce((acc, scores) => {
+      acc += scores
+      return acc
+    },0).toFixed(1)
+
+    xpLast7Days = totalPointsPerMissionArr.reduce((acc, scores, index) => {
+      if ((Date.now() - journeys[index].route[0].time) <= millisecondsInAWeek) {
+        acc += scores;
+      }
+      return acc;
+    },0).toFixed(1)
     
     // totalKmTraveled is a sum of the users total kms travelled.
     totalKmTraveled = totalMissionDistance.reduce((acc, mission) => {
       acc += mission
       return acc
-    },0).toFixed(3)
+    },0).toFixed(2)
   }
 
   getLongLatDetails()
   
   return (
     <View>
-      <TouchableOpacity>
-      <Text style={{ marginHorizontal: 20 }}>User journey stats</Text>
-      </TouchableOpacity>
       <View>
-        <Text style={{marginHorizontal: 20}}>{`Total ${totalKmTraveled}kms`}</Text>
+      <Text style={{ marginHorizontal: 20 }}>User journey stats</Text>
       </View>
       <View>
-        <Text style={{marginHorizontal: 20}}>{`Total ${props.journeyObj.data.journeys.length} missions`}</Text>
+        <Text style={{marginHorizontal: 20}}>{`Total distance: ${totalKmTraveled}kms`}</Text>
+      </View>
+      <View>
+        <Text style={{ marginHorizontal: 20 }}>{`Total missions: ${props.journeyObj.data.journeys.length}`}</Text>
+      </View>
+      <View style={{ marginHorizontal: 20 }}>
+        <Text>{`XP: ${xp}`}</Text>
+      </View>
+      <View style={{ marginHorizontal: 20 }}>
+        <Text>{`This weeks XP: ${xpLast7Days}`}</Text>
       </View>
     </View>
   );
