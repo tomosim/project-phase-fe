@@ -7,12 +7,12 @@
     "test": "jest"
   },
   "dependencies": {
+    "@mapbox/react-native-mapbox-gl": "^6.1.2-beta2",
     "axios": "^0.18.0",
     "react": "16.4.1",
     "react-devtools": "^3.2.3",
     "react-native": "0.56.0",
     "react-native-firebase": "^4.3.8",
-    "react-native-maps": "^0.21.0",
     "react-native-stopwatch-timer": "0.0.20"
   },
   "devDependencies": {
