@@ -5,7 +5,7 @@ import UserJourneys from './UserJourneys'
 
 class UserStats extends Component {
   state = {
-    userJourneys : {}
+    userJourneys : null
   };
 
 componentDidMount() {
@@ -44,7 +44,7 @@ getUserJourneys = (id) => {
             return <Text key={index} style={{marginHorizontal: 20}}>{achievement}</Text>
           })}
         </View>
-        {this.state.userJourneys && <UserJourneys journeyObj={this.state.userJourneys}/>}
+        {this.state.userJourneys !== null && <UserJourneys journeyObj={this.state.userJourneys}/>}
       </View>
     )
   }
