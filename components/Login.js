@@ -18,7 +18,8 @@ class Login extends Component {
 
   //login functionality
   loginUser = (email, password) => {
-    const { login } = this.props
+    const { login, loading } = this.props
+    loading()
     auth
     .signInAndRetrieveDataWithEmailAndPassword(email, password)
     .then(() => {

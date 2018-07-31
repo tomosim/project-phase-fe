@@ -5,7 +5,7 @@ import Home from "./components/Home";
 import * as api from "./api";
 
 export default class App extends Component<Props> {
-  state = { currentUser: { username: "yom" }, register: false };
+  state = { currentUser: { username: "" }, register: false };
 
   // signup
   signup = async (email, username) => {
@@ -38,13 +38,22 @@ export default class App extends Component<Props> {
       .catch(console.log);
   };
 
+
   logout = () => {
     this.setState({
       currentUser: { username: "" }
     });
   };
 
+  // displays a default loading screen when loading content
+  toggleLoading = () => {
+    this.setState({
+      loading: !this.state.loading
+    })
+  }
+
   render() {
+    const { loading } = this.state
     return (
       <View style={styles.container}>
         {this.state.currentUser.username === "" && (
@@ -53,12 +62,22 @@ export default class App extends Component<Props> {
         {this.state.currentUser.username !== "" && (
           <Home logout={this.logout} />
         )}
+
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  loading: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   container: {
     flex: 1,
     flexDirection: "column",
