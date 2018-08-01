@@ -22,7 +22,7 @@ class Home extends Component {
       "route": [
         {
           "_id": "5b5f24aa795a65329889c972",
-          "lat": 53.4803217335176,
+          "lat": 53.3804217335176,
           "long": -2.125,
           "time": 1532959126826
         },

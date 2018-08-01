@@ -15,7 +15,7 @@ const JourneyOverviewModal = props => {
     >
       <View style={styles.container}>
         <View style={styles.map}>
-          <Map journeyObj={props.journeyObj}/>
+          {props.journeyObj !== null && <Map journeyObj={props.journeyObj}/>}
         </View>
         <View style={StyleSheet.body}>
           <Text>journey data goes here</Text>
