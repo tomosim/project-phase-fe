@@ -6,7 +6,40 @@ Mapbox.setAccessToken(
   "pk.eyJ1IjoidG9tb3NpbSIsImEiOiJjams4Zm9remQyY3M2M2xrY2dqcm1iY2s0In0.3wRLt9WKywixIt_htoH-8Q"
 );
 
-export default class App extends Component<{}> {
+const coordinates = [
+  [-2.254, 53.48],
+  [-2.254, 53.58],
+  [-2.354, 53.48],
+]
+
+export default class Map extends Component<{}> {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      coordinates: coordinates
+    };
+  }
+
+  renderAnnotation(counter) {
+    const id = `pointAnnotation${counter}`;
+    const coordinate = this.state.coordinates[counter];
+    const title = `Longitude: ${this.state.coordinates[counter][0]} Latitude: ${this.state.coordinates[counter][1]}`;
+
+    return (
+      <Mapbox.PointAnnotation
+        key={id}
+        id={id}
+        title='Test'
+        coordinate={coordinate}>
+
+        <View style={styles.annotationContainer}>
+          <View style={styles.annotationFill} />
+        </View>
+      </Mapbox.PointAnnotation>
+    );
+  }
+
   // renderAnnotations() {
   //   return (
   //     <Mapbox.PointAnnotation
@@ -22,6 +55,16 @@ export default class App extends Component<{}> {
   //   );
   // }
 
+  renderAnnotations() {
+    const items = [];
+
+    for (let i = 0; i < this.state.coordinates.length; i++) {
+      items.push(this.renderAnnotation(i));
+    }
+
+    return items;
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -35,8 +78,9 @@ export default class App extends Component<{}> {
           pitchEnabled={false}
           rotateEnabled={false}
           logoEnabled={false}
+          showUserLocation={true}
         >
-          {/* {this.renderAnnotations()} */}
+          {this.renderAnnotations(i)}
         </Mapbox.MapView>
       </View>
     );

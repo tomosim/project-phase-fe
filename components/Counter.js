@@ -11,7 +11,6 @@ class Counter extends Component {
   }
 
   render() {
-    console.dir(this.props)
     return (
       <View>
         <Stopwatch start={this.props.recording} options={options} />

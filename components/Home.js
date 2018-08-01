@@ -16,10 +16,10 @@ class Home extends Component {
     menuVisible: false,
     locationPermission: "",
     coords: [],
-    currentJourney: null,
-    loggedJourney: null,
-    journey: { startTime: "", endTime: "", coords: [] }, //Is this used?
-    journeyModalVisible: false
+    currentJourney: null, // this will be the journey that was just recorded
+    loggedJourney: null, // load the map once then has come back
+    // journey: { startTime: "", endTime: "", coords: [] }, //Is this used?
+    // journeyModalVisible: false
   };
 
   //geolocation
