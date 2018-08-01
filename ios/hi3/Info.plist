@@ -54,6 +54,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Pacifico-Regular.ttf</string>
+		<string>Righteous-Regular.ttf</string>
 	</array>
 </dict>
 </plist>

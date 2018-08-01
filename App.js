@@ -4,51 +4,59 @@ import LoginRegisterScreen from "./components/LoginRegisterScreen";
 import Home from "./components/Home";
 
 import * as api from "./api";
-import Loading from "./components/Loading"
-import ErrorPopUp from './components/ErrorPopUp'
+import Loading from "./components/Loading";
+import ErrorPopUp from "./components/ErrorPopUp";
 
 export default class App extends Component<Props> {
-
-  state = { 
-    currentUser: {username: ''}, 
+  state = {
+    currentUser: {
+      username: "tom",
+      achievements: ["On a mission!"],
+      _id: "5b5f24aa795a65329889c96f",
+      emain: "tom@tom.com",
+      avatar:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Polar_Bear_-_Alaska_%28cropped%29.jpg/220px-Polar_Bear_-_Alaska_%28cropped%29.jpg",
+      xp: 0
+    },
     register: false,
     loading: false
   };
 
   // signup
   signup = async (email, username) => {
-    const newUser = {email, username}
-    await api.createUser(newUser)
-      .then((user) => {
-        this.setState({ 
-          //currentUser: user.data.user,  Vel's 
+    const newUser = { email, username };
+    await api
+      .createUser(newUser)
+      .then(user => {
+        this.setState({
+          //currentUser: user.data.user,  Vel's
           currentUser: user.data.newUser,
           loading: false
-         });
+        });
       })
       .catch(err => {
         // Future plan- send message to backend admin if this is fired.
-        ErrorPopUp(err)
-        this.toggleLoading()
-
+        ErrorPopUp(err);
+        this.toggleLoading();
       })
       .catch(console.log);
   };
 
   //login
-  login = async (email) => {
-    await api.fetchUserByEmail(email)
-    .then((user) => {
-      this.setState({
-        currentUser: user.data.user,
-        loading: false  
+  login = async email => {
+    await api
+      .fetchUserByEmail(email)
+      .then(user => {
+        this.setState({
+          currentUser: user.data.user,
+          loading: false
+        });
       })
-    })
-    .catch(err => {
-      ErrorPopUp(err)
-      this.toggleLoading()
-    })
-  }
+      .catch(err => {
+        ErrorPopUp(err);
+        this.toggleLoading();
+      });
+  };
 
   logout = () => {
     this.setState({
@@ -60,16 +68,24 @@ export default class App extends Component<Props> {
   toggleLoading = () => {
     this.setState({
       loading: !this.state.loading
-    })
-  } 
+    });
+  };
 
   render() {
-    const { loading } = this.state
+    const { loading } = this.state;
     return (
       <View style={styles.container}>
-        {this.state.currentUser.username === "" && <LoginRegisterScreen login={this.login} signup={this.signup} loading={this.toggleLoading}/>}
+        {this.state.currentUser.username === "" && (
+          <LoginRegisterScreen
+            login={this.login}
+            signup={this.signup}
+            loading={this.toggleLoading}
+          />
+        )}
 
-        {this.state.currentUser.username !== "" && <Home logout={this.logout} user={this.state.currentUser}/>}
+        {this.state.currentUser.username !== "" && (
+          <Home logout={this.logout} user={this.state.currentUser} />
+        )}
 
         {/* //{this.state.currentUser.username !== "" && <Home logout={this.logout} userObj={this.state.currentUser}/>} */}
 
@@ -81,13 +97,13 @@ export default class App extends Component<Props> {
 
 const styles = StyleSheet.create({
   loading: {
-    position: 'absolute',
+    position: "absolute",
     left: 0,
     right: 0,
     top: 0,
     bottom: 0,
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignItems: "center",
+    justifyContent: "center"
   },
   container: {
     flex: 1,
