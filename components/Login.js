@@ -34,41 +34,17 @@ class Login extends Component {
   }
 
   render() {
-    return (
-      <View style={{ width: "90%" }}>
-        <TextInput
-          id="email"
-          style={styles.input}
-          onChangeText={e => this.handleInput(e, "email")}
-          value={this.state.email}
-          placeholder={"email"}
-        />
+    return <View style={{ width: "90%" }}>
+        <TextInput id="email" style={styles.input} onChangeText={e => this.handleInput(e, "email")} value={this.state.email} placeholder={"email"} />
 
-        <TextInput
-          id="password"
-          style={styles.input}
-          secureTextEntry
-          onChangeText={e => this.handleInput(e, "password")}
-          value={this.state.password}
-          placeholder={"password"}
-          clearTextOnFocus
-        />
+        <TextInput id="password" style={styles.input} secureTextEntry onChangeText={e => this.handleInput(e, "password")} value={this.state.password} placeholder={"password"} clearTextOnFocus />
 
-        <Button
-          title="Login"
-          color="rgb(0,220,90)"
-          onPress={() => this.loginUser(this.state.email, this.state.password)}
-        />
+        <Button title="Login" color="rgb(0,220,90)" onPress={() => this.loginUser(this.state.email.toLowerCase(), this.state.password)} disabled={this.state.email.length && this.state.password.length ? false : true} />
 
         <Text style={styles.text}>New user?</Text>
 
-        <Button
-          title="Register"
-          color="rgb(0,220,90)"
-          onPress={this.switchToRegister}
-        />
-      </View>
-    );
+        <Button title="Register" color="rgb(0,220,90)" onPress={this.switchToRegister} />
+      </View>;
   }
 }
 
