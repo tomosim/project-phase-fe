@@ -6,19 +6,13 @@ Mapbox.setAccessToken(
   "pk.eyJ1IjoidG9tb3NpbSIsImEiOiJjams4Zm9remQyY3M2M2xrY2dqcm1iY2s0In0.3wRLt9WKywixIt_htoH-8Q"
 );
 
-const coordinates = [
-  [-2.254, 53.48],
-  [-2.254, 53.58],
-  [-2.354, 53.48],
-]
-
 export default class Map extends Component<{}> {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      coordinates: coordinates
-    };
+  state = {
+    coordinates: [
+      [-2.254, 53.48],
+      [-2.254, 53.58],
+      [-2.354, 53.48]
+    ]
   }
 
   renderAnnotation(counter) {
@@ -80,7 +74,7 @@ export default class Map extends Component<{}> {
           logoEnabled={false}
           showUserLocation={true}
         >
-          {this.renderAnnotations(i)}
+          {this.renderAnnotations()}
         </Mapbox.MapView>
       </View>
     );
