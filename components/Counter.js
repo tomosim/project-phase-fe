@@ -24,6 +24,7 @@ class Counter extends Component {
   }
 
   render() {
+    console.log(this.state.stopwatchStart)
     return (
       <View>
         <Stopwatch start={this.state.stopwatchStart} options={options} />
