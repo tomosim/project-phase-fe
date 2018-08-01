@@ -191,20 +191,22 @@ const UserJourneys = props => {
         <Text style={styles.text}>{props.journeyObj.data.journeys.length}</Text>
       </View>
       <View style={styles.child}>
-        <Text style={[styles.text, { letterSpacing: 3 }]}>XP:</Text>
-        <Text style={styles.text}>{xp}</Text>
+        <Text style={[styles.text, { letterSpacing: 3 }]}>
+          Total saved CO2 :
+        </Text>
+        <Text style={styles.text}>{xp} kgs</Text>
       </View>
       <View style={styles.child}>
-        <Text style={[styles.text, { letterSpacing: 3 }]}>This weeks XP:</Text>
-        <Text style={styles.text}>{xpLast7Days}</Text>
+        <Text style={[styles.text, { letterSpacing: 3 }]}>
+          CO2 saved this week:
+        </Text>
+        <Text style={styles.text}>{xpLast7Days} kgs</Text>
       </View>
       <View style={styles.child}>
-        <Text style={[styles.text, { letterSpacing: 3 }]}>This weeks XP:</Text>
-        <Text style={styles.text}>{xpLast7Days}</Text>
-      </View>
-      <View style={styles.child}>
-        <Text style={[styles.text, { letterSpacing: 3 }]}>This months XP:</Text>
-        <Text style={styles.text}>{xpLast4Weeks}</Text>
+        <Text style={[styles.text, { letterSpacing: 3 }]}>
+          CO2 saved this month:
+        </Text>
+        <Text style={styles.text}>{xpLast4Weeks} kgs</Text>
       </View>
     </SwiperFlatList>
   );
