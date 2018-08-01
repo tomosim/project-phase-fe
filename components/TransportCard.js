@@ -118,7 +118,9 @@ const styles = StyleSheet.create({
   cardTitle: {
     flex: 1,
     marginTop: -10,
-    alignItems: "center"
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderColor: "rgb(150,180,150)"
   },
   title: {
     fontSize: 20,
