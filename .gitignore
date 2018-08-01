@@ -57,3 +57,5 @@ buck-out/
 
 #firebase
 /config
+my-release-key.keystore
+my-release-key.keystore.old
