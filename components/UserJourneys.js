@@ -4,24 +4,13 @@ import SwiperFlatList from "react-native-swiper-flatlist";
 
 const UserJourneys = props => {
   const millisecondsInAWeek = 604800000;
+  const millisecondsIn4Weeks = millisecondsInAWeek * 4;
   let totalKmTraveled;
   let xp;
   let xpLast7Days;
   let xpLast4Weeks;
-  let { journeys } = props.journeyObj.data;
 
-  if (journeys[0].route.length < 1) {
-    console.log("user journey data not complete - UserJourney.js");
-    console.log("route length");
-  }
-  if (journeys[0].route[0] === undefined) {
-    console.log("user journey data not complete - UserJourney.js");
-    console.log("route undefined");
-  }
-  if (journeys[0].route[0].lat === undefined) {
-    console.log("user journey data not complete - UserJourney.js");
-    console.log("coords undefined");
-  }
+  let { journeys } = props.journeyObj.data
 
   const distance = (lat1, long1, lat2, long2) => {
     const deg2rad = Math.PI / 180;
@@ -94,16 +83,18 @@ const UserJourneys = props => {
     const totalPointsPerMissionArr = missionDetails.map((mission, index) => {
       let carbonRatio;
       let totalPoints = 0;
-      let last7DaysPoints = 0;
-      let last4WeeksPoints = 0;
+      // let last7DaysPoints = 0;
+      // let last4WeeksPoints = 0;
 
       mission.forEach(dist => {
-        switch (journeys[index].mode) {
-          case "walk":
-          case "foot":
-          case "foot 👣":
-          case "bicycle":
-          case "bicycle 🚲":
+
+        switch(journeys[index].mode) {
+          case 'walk':
+          case 'foot':
+          case 'foot 👣':
+          case 'bicycle':
+          case 'bicycle 🚲':
+          case 'cycle':
             carbonRatio = 0;
             break;
           case "bus":
@@ -126,8 +117,8 @@ const UserJourneys = props => {
           case "train 🚂":
             carbonRatio = 0.06;
             break;
-          case "taxi":
-          case 'taxi 🚕"':
+          case 'taxi':
+          case 'taxi 🚕':
             carbonRatio = 0.17;
             break;
           default:
@@ -136,30 +127,36 @@ const UserJourneys = props => {
               "is a mode not in switch statement - UserJourneys.js"
             );
         }
-        const baseline = mission * 0.183;
-        const yourTrip = mission * carbonRatio;
-        totalPoints += baseline - yourTrip;
-      });
-      return totalPoints;
-    });
 
-    // xp is the sum of all missions points. To 3 decimal places
-    xp = totalPointsPerMissionArr
-      .reduce((acc, scores) => {
+        const baseline = dist * 0.183;
+        const yourTrip = dist * carbonRatio;
+        totalPoints += (baseline - yourTrip);
+      })
+      return totalPoints
+    })
+
+    // xp - all missions points. To 3 decimal places
+    xp = totalPointsPerMissionArr.reduce((acc, scores) => {
+      acc += scores
+      return acc
+    },0).toFixed(1)
+
+    // xpLast7Days - all mission points from the last 7 days.
+    xpLast7Days = totalPointsPerMissionArr.reduce((acc, scores, index) => {
+      if ((Date.now() - journeys[index].route[0].time) <= millisecondsInAWeek) {
         acc += scores;
-        return acc;
-      }, 0)
-      .toFixed(1);
+      }
+      return acc;
+    },0).toFixed(1)
 
-    xpLast7Days = totalPointsPerMissionArr
-      .reduce((acc, scores, index) => {
-        if (Date.now() - journeys[index].route[0].time <= millisecondsInAWeek) {
-          acc += scores;
-        }
-        return acc;
-      }, 0)
-      .toFixed(1);
-
+    // xpLast4Weeks - all mission points from the last 4 weeks
+    xpLast4Weeks = totalPointsPerMissionArr.reduce((acc, scores, index) => {
+      if ((Date.now() - journeys[index].route[0].time) <= millisecondsIn4Weeks) {
+        acc += scores
+      }
+      return acc;
+    },0).toFixed(1)
+    
     // totalKmTraveled is a sum of the users total kms travelled.
     totalKmTraveled = totalMissionDistance
       .reduce((acc, mission) => {
@@ -192,6 +189,14 @@ const UserJourneys = props => {
       <View style={styles.child}>
         <Text style={[styles.text, { letterSpacing: 3 }]}>This weeks XP:</Text>
         <Text style={styles.text}>{xpLast7Days}</Text>
+      </View>
+      <View style={{ marginHorizontal: 20 }}>
+        <Text style={[styles.text, { letterSpacing: 3 }]}>This weeks XP:</Text>
+        <Text style={styles.text}>{xpLast7Days}</Text>
+      </View>
+      <View style={{ marginHorizontal: 20 }}>
+        <Text style={[styles.text, { letterSpacing: 3 }]}>This months XP:</Text>
+        <Text style={styles.text}>{xpLast4Weeks}</Text>
       </View>
     </SwiperFlatList>
   );

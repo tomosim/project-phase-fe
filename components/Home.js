@@ -36,56 +36,90 @@ class Home extends Component {
       );
     });
 
-  startCoords = () => {
-    this.getLatLong()
-      .then(newCoords => {
-        const { latitude, longitude } = newCoords;
-        const currentCoords = {
-          lat: latitude,
-          long: longitude,
-          time: Date.now()
-        };
-        this.setState({
-          coords: [...this.state.coords, currentCoords]
-        });
-      })
-      .catch(console.log);
-  };
+    startCoords = () => {
+      this.getLatLong()
+        .then((newCoords) => {
+          const {latitude, longitude} = newCoords;
+          const currentCoords = {lat: latitude, long: longitude, time: Date.now()}
+          this.setState({
+            coords: [...this.state.coords, currentCoords]
+          })
+        })
+        .catch(console.log)      
+    }
 
-  endCoords = () => {
-    this.getLatLong()
-      .then(newCoords => {
-        console.log(newCoords);
-        const { latitude, longitude } = newCoords;
-        const currentCoords = {
-          lat: latitude,
-          long: longitude,
-          time: Date.now()
-        };
-        this.setState({
-          coords: [...this.state.coords, currentCoords]
-        });
-        const newJourney = {
-          mode: this.state.mode,
-          route: this.state.coords,
-          belongs_to: this.props.user._id
-        };
-        console.log(newJourney, "from first .then");
-        return newJourney;
-      })
-      .then(newJourney => {
-        console.log(newJourney, "from second .then");
-        return api.createJourney(newJourney);
-      })
-      .then(res => {
-        console.log(res);
-        const { newJourney } = res.data;
-        this.setState({
-          currentJourney: newJourney
-        });
-        console.log(newJourney);
-      })
-      .catch(console.log);
+    endCoords = () => {
+      this.getLatLong()
+        .then((newCoords) => {
+          const {latitude, longitude} = newCoords;
+          const currentCoords = {lat: latitude, long: longitude, time: Date.now()}
+          this.setState({
+            coords: [...this.state.coords, currentCoords]
+          })
+          const newJourney = {
+            mode: this.state.mode,
+            route: this.state.coords,
+            belongs_to: this.props.user._id
+          }
+          return newJourney
+        })
+        .then((newJourney) => {
+          return api.createJourney(newJourney)    
+        })
+        .then((res) => {
+          const {newJourney} = res.data
+          this.setState({
+            coords: [],
+            currentJourney: newJourney
+          })
+        })
+        .catch(console.log)  
+      
+    }   
+
+    //permissions for geolocation - component did mount alerts for permission
+    //when data is first installed, then stores in device's location
+    _requestPermission = () => {
+      Permissions.request('location').then(response => {
+        // Returns once the user has chosen to 'allow' or to 'not allow' access
+        // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+        this.setState({ locationoPermission: response })
+
+
+//   endCoords = () => {
+//     this.getLatLong()
+//       .then(newCoords => {
+//         console.log(newCoords);
+//         const { latitude, longitude } = newCoords;
+//         const currentCoords = {
+//           lat: latitude,
+//           long: longitude,
+//           time: Date.now()
+//         };
+//         this.setState({
+//           coords: [...this.state.coords, currentCoords]
+//         });
+//         const newJourney = {
+//           mode: this.state.mode,
+//           route: this.state.coords,
+//           belongs_to: this.props.user._id
+//         };
+//         console.log(newJourney, "from first .then");
+//         return newJourney;
+//       })
+//       .then(newJourney => {
+//         console.log(newJourney, "from second .then");
+//         return api.createJourney(newJourney);
+//       })
+//       .then(res => {
+//         console.log(res);
+//         const { newJourney } = res.data;
+//         this.setState({
+//           currentJourney: newJourney
+//         });
+//         console.log(newJourney);
+//       })
+//       .catch(console.log);
   };
 
   //permissions for geolocation - component did mount alerts for permission

@@ -147,7 +147,7 @@ class Register extends Component {
                   color="rgb(0,220,90)"
                   title="Register"
                   color="rgb(0,220,90)"
-                  onPress={() => this.addNewUser(this.state.email, this.state.username, this.state.password1)}
+                  onPress={() => this.addNewUser(this.state.email.toLowerCase(), this.state.username, this.state.password1)}
                 />
               )}
             </View>
