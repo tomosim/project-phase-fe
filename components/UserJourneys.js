@@ -3,12 +3,14 @@ import { View, Text, TouchableOpacity } from 'react-native'
 
 const UserJourneys = (props) => {
   const millisecondsInAWeek = 604800000;
+  const millisecondsIn4Weeks = millisecondsInAWeek * 4;
   let totalKmTraveled;
   let xp;
   let xpLast7Days;
   let xpLast4Weeks;
+  let rank;
   let { journeys } = props.journeyObj.data
-  
+
     if (journeys[0].route.length < 1) {
       console.log('user journey data not complete - UserJourney.js')
       console.log('route length')
@@ -21,6 +23,9 @@ const UserJourneys = (props) => {
       console.log('user journey data not complete - UserJourney.js')
       console.log('coords undefined')
     }
+
+    // rank decided based on XP
+    // if (xp === 0)
 
  
   const distance = (lat1, long1, lat2, long2) => {
@@ -87,8 +92,8 @@ const UserJourneys = (props) => {
     const totalPointsPerMissionArr = missionDetails.map((mission, index) => {
       let carbonRatio;
       let totalPoints = 0;
-      let last7DaysPoints = 0;
-      let last4WeeksPoints = 0;
+      // let last7DaysPoints = 0;
+      // let last4WeeksPoints = 0;
 
       mission.forEach(dist => {
         switch(journeys[index].mode) {
@@ -97,6 +102,7 @@ const UserJourneys = (props) => {
           case 'foot 👣':
           case 'bicycle':
           case 'bicycle 🚲':
+          case 'cycle':
             carbonRatio = 0;
             break;
           case 'bus':
@@ -120,28 +126,37 @@ const UserJourneys = (props) => {
             carbonRatio = 0.06;
             break;
           case 'taxi':
-          case 'taxi 🚕"':
+          case 'taxi 🚕':
             carbonRatio = 0.17;
             break;
           default:
             console.log(journeys[index].mode, 'is a mode not in switch statement - UserJourneys.js')
         }
-        const baseline = mission * 0.183;
-        const yourTrip = mission * carbonRatio;
+        const baseline = dist * 0.183;
+        const yourTrip = dist * carbonRatio;
         totalPoints += (baseline - yourTrip);
       })
       return totalPoints
     })
 
-    // xp is the sum of all missions points. To 3 decimal places
+    // xp - all missions points. To 3 decimal places
     xp = totalPointsPerMissionArr.reduce((acc, scores) => {
       acc += scores
       return acc
     },0).toFixed(1)
 
+    // xpLast7Days - all mission points from the last 7 days.
     xpLast7Days = totalPointsPerMissionArr.reduce((acc, scores, index) => {
       if ((Date.now() - journeys[index].route[0].time) <= millisecondsInAWeek) {
         acc += scores;
+      }
+      return acc;
+    },0).toFixed(1)
+
+    // xpLast4Weeks - all mission points from the last 4 weeks
+    xpLast4Weeks = totalPointsPerMissionArr.reduce((acc, scores, index) => {
+      if ((Date.now() - journeys[index].route[0].time) <= millisecondsIn4Weeks) {
+        acc += scores
       }
       return acc;
     },0).toFixed(1)
@@ -171,6 +186,9 @@ const UserJourneys = (props) => {
       </View>
       <View style={{ marginHorizontal: 20 }}>
         <Text>{`This weeks XP: ${xpLast7Days}`}</Text>
+      </View>
+      <View style={{ marginHorizontal: 20 }}>
+        <Text>{`This months XP: ${xpLast4Weeks}`}</Text>
       </View>
     </View>
   );

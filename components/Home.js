@@ -47,9 +47,8 @@ class Home extends Component {
     endCoords = () => {
       this.getLatLong()
         .then((newCoords) => {
-          console.log(newCoords)
           const {latitude, longitude} = newCoords;
-          const currentCoords = {lat: longitude, long: longitude, time: Date.now()}
+          const currentCoords = {lat: latitude, long: longitude, time: Date.now()}
           this.setState({
             coords: [...this.state.coords, currentCoords]
           })
@@ -58,20 +57,17 @@ class Home extends Component {
             route: this.state.coords,
             belongs_to: this.props.user._id
           }
-          console.log(newJourney, 'from first .then')
           return newJourney
         })
         .then((newJourney) => {
-          console.log(newJourney, 'from second .then')
           return api.createJourney(newJourney)    
         })
         .then((res) => {
-          console.log(res)
           const {newJourney} = res.data
           this.setState({
+            coords: [],
             currentJourney: newJourney
           })
-          console.log(newJourney)
         })
         .catch(console.log)  
       
