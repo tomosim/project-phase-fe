@@ -8,6 +8,8 @@ class User extends Component {
   //Jamie make this work please!
   rank;
 
+  ranks = {};
+
   state = {
     userJourneys: null
   };

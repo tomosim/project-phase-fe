@@ -10,12 +10,11 @@ import ErrorPopUp from "./components/ErrorPopUp";
 export default class App extends Component<Props> {
   state = {
     currentUser: {
-      username: "tom",
-      achievements: ["On a mission!"],
-      _id: "5b5f24aa795a65329889c96f",
-      emain: "tom@tom.com",
-      avatar:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Polar_Bear_-_Alaska_%28cropped%29.jpg/220px-Polar_Bear_-_Alaska_%28cropped%29.jpg",
+      username: "",
+      achievements: [],
+      _id: "",
+      emain: "",
+      avatar: "",
       xp: 0
     },
     register: false,

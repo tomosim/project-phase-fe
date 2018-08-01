@@ -235,8 +235,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5FCFF",
     elevation: 1,
     marginVertical: 5,
-    padding: 10,
-    paddingTop: 15
+    padding: 4,
+    paddingTop: 6
   },
   statCard: {
     backgroundColor: "#F5FCFF",
