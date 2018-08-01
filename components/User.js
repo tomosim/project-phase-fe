@@ -2,8 +2,12 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import * as api from "../api";
 import UserJourneys from "./UserJourneys";
+import XPBar from "./XPBar";
 
 class User extends Component {
+  //Jamie make this work please!
+  rank;
+
   state = {
     userJourneys: null
   };
@@ -21,24 +25,22 @@ class User extends Component {
   };
 
   render() {
-    const { username, achievements, avatar, xp, _id } = this.props.user;
+    const { username, achievements, avatar, _id } = this.props.user;
+
     return (
       <View style={styles.container}>
         <View style={styles.head}>
           <Image style={styles.avatar} source={{ uri: `${avatar}` }} />
-          <Text style={styles.name}>{username.toUpperCase()}</Text>
+          <View>
+            <Text style={styles.name}>{username.toUpperCase()}</Text>
+            <Text style={styles.rank}>{`RANK: Bamboo, bitches!`}</Text>
+          </View>
         </View>
         <View style={styles.body}>
-          {/* this is where the xp bar/rank will go */}
-          <View style={styles.stats}>
-            <View>
-              <Text style={styles.title}>STATS</Text>
-            </View>
-            <View>
-              {this.state.userJourneys !== null && (
-                <UserJourneys journeyObj={this.state.userJourneys} />
-              )}
-            </View>
+          <View style={{ minHeight: 40 }}>
+            {this.state.userJourneys !== null && (
+              <UserJourneys journeyObj={this.state.userJourneys} />
+            )}
           </View>
         </View>
       </View>
@@ -61,28 +63,25 @@ const styles = StyleSheet.create({
     margin: 5,
     width: 100,
     height: 100,
-    borderRadius: 50,
-    borderWidth: 3,
-    borderColor: "#F5FCFF"
+    borderRadius: 50
   },
   name: {
     fontSize: 24,
     fontFamily: "Righteous-Regular",
     marginLeft: 15
   },
-  title: {
-    fontSize: 24,
-    fontFamily: "Righteous-Regular",
-    textAlign: "center"
+  rank: {
+    fontSize: 16,
+    fontStyle: "italic",
+    marginLeft: 15
   },
   stats: {
     backgroundColor: "#F5FCFF",
-    margin: 10,
+    marginVertical: 10,
     padding: 5,
     paddingTop: 10,
     paddingBottom: 3,
-    elevation: 1,
-    borderRadius: 5
+    elevation: 1
   }
 });
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import SwiperFlatList from "react-native-swiper-flatlist";
+import XPBar from "./XPBar";
 
 const UserJourneys = props => {
   const millisecondsInAWeek = 604800000;
@@ -177,50 +178,87 @@ const UserJourneys = props => {
   getLongLatDetails();
 
   return (
-    <SwiperFlatList
-      showPagination
-      paginationActiveColor={"rgb(0, 220, 90)"}
-      paginationDefaultColor={"rgb(200,200,200)"}
-    >
-      <View style={styles.child}>
-        <Text style={[styles.text, { letterSpacing: 3 }]}>TOTAL DISTANCE:</Text>
-        <Text style={styles.text}>{`${totalKmTraveled} kms`}</Text>
+    <View>
+      <View style={styles.XPBar}>
+        <XPBar XP={xp} />
       </View>
-      <View style={styles.child}>
-        <Text style={[styles.text, { letterSpacing: 3 }]}>Total missions:</Text>
-        <Text style={styles.text}>{props.journeyObj.data.journeys.length}</Text>
+
+      <View style={styles.statCard}>
+        <View style={styles.statsTitle}>
+          <Text style={styles.title}>STATS</Text>
+        </View>
+        <SwiperFlatList
+          showPagination
+          paginationActiveColor={"rgb(0, 220, 90)"}
+          paginationDefaultColor={"rgb(200,200,200)"}
+        >
+          <View style={styles.child}>
+            <Text style={[styles.text, { letterSpacing: 3 }]}>
+              Total distance:
+            </Text>
+            <Text style={styles.text}>{totalKmTraveled} kms</Text>
+          </View>
+          <View style={styles.child}>
+            <Text style={[styles.text, { letterSpacing: 3 }]}>
+              Total no. missions:
+            </Text>
+            <Text style={styles.text}>
+              {props.journeyObj.data.journeys.length}
+            </Text>
+          </View>
+          <View style={styles.child}>
+            <Text style={[styles.text, { letterSpacing: 3 }]}>Total XP:</Text>
+            <Text style={styles.text}>{xp} kgs CO2</Text>
+          </View>
+          <View style={styles.child}>
+            <Text style={[styles.text, { letterSpacing: 3 }]}>
+              XP this week:
+            </Text>
+            <Text style={styles.text}>{xpLast7Days} kgs CO2</Text>
+          </View>
+          <View style={styles.child}>
+            <Text style={[styles.text, { letterSpacing: 3 }]}>
+              XP this month:
+            </Text>
+            <Text style={styles.text}>{xpLast4Weeks} kgs CO2</Text>
+          </View>
+        </SwiperFlatList>
       </View>
-      <View style={styles.child}>
-        <Text style={[styles.text, { letterSpacing: 3 }]}>XP:</Text>
-        <Text style={styles.text}>{xp}</Text>
-      </View>
-      <View style={styles.child}>
-        <Text style={[styles.text, { letterSpacing: 3 }]}>This weeks XP:</Text>
-        <Text style={styles.text}>{xpLast7Days}</Text>
-      </View>
-      <View style={styles.child}>
-        <Text style={[styles.text, { letterSpacing: 3 }]}>This weeks XP:</Text>
-        <Text style={styles.text}>{xpLast7Days}</Text>
-      </View>
-      <View style={styles.child}>
-        <Text style={[styles.text, { letterSpacing: 3 }]}>This months XP:</Text>
-        <Text style={styles.text}>{xpLast4Weeks}</Text>
-      </View>
-    </SwiperFlatList>
+    </View>
   );
 };
 
 const { width, height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white"
+  XPBar: {
+    backgroundColor: "#F5FCFF",
+    elevation: 1,
+    marginVertical: 5,
+    padding: 10,
+    paddingTop: 15
+  },
+  statCard: {
+    backgroundColor: "#F5FCFF",
+    elevation: 1,
+    marginBottom: 10,
+    padding: 5
+  },
+  statsTitle: {
+    borderColor: "rgb(150,180,150)",
+    marginBottom: -30,
+    paddingBottom: 5,
+    borderBottomWidth: 1
+  },
+  title: {
+    fontSize: 24,
+    fontFamily: "Righteous-Regular",
+    textAlign: "center"
   },
   child: {
     alignItems: "center",
     height: height * 0.2,
-    width: width - 30,
+    width: width - 10,
     justifyContent: "center"
   },
   text: {

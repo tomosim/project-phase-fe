@@ -12,7 +12,7 @@ class TransportCard extends Component {
     return (
       <View style={styles.card}>
         <View style={styles.cardTitle}>
-          <Text style={styles.title}>Start a mission</Text>
+          <Text style={styles.title}>START A MISSION</Text>
         </View>
         <View style={styles.row}>
           <TouchableOpacity
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: "column",
     justifyContent: "flex-start",
-    backgroundColor: "rgb(240, 240, 240)",
+    backgroundColor: "#F5FCFF",
     marginTop: 10,
     padding: 5,
     paddingTop: 10,
@@ -115,8 +115,17 @@ const styles = StyleSheet.create({
     width: "100%",
     margin: 1
   },
-  cardTitle: { flex: 1, marginTop: -10 },
-  title: { marginHorizontal: 20, fontSize: 20, color: "rgb(0,220,90)" },
+  cardTitle: {
+    flex: 1,
+    marginTop: -10,
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderColor: "rgb(150,180,150)"
+  },
+  title: {
+    fontSize: 20,
+    fontFamily: "Righteous-Regular"
+  },
   button: {
     backgroundColor: "green",
     height: "75%",
