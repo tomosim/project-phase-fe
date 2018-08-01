@@ -17,9 +17,26 @@ class Home extends Component {
     locationPermission: "",
     coords: [],
     currentJourney: null, // this will be the journey that was just recorded
-    loggedJourney: null, // load the map once then has come back
-    // journey: { startTime: "", endTime: "", coords: [] }, //Is this used?
-    // journeyModalVisible: false
+    testCurrentJourney: {
+      "_id": "5b5f24aa795a65329889c970",
+      "route": [
+        {
+          "_id": "5b5f24aa795a65329889c972",
+          "lat": 53.4803217335176,
+          "long": -2.125,
+          "time": 1532959126826
+        },
+        {
+          "_id": "5b5f24aa795a65329889c972",
+          "lat": 53.3803217335176,
+          "long": -2.175,
+          "time": 1532959126826
+        }
+      ],
+      "mode": "walk",
+      "belongs_to": "5b5f24aa795a65329889c96c",
+      "__v": 0
+    },
   };
 
   //geolocation
@@ -173,6 +190,7 @@ class Home extends Component {
         <JourneyOverviewModal
           journeyModalVisible={this.state.journeyModalVisible}
           setOverviewVisible={this.setOverviewVisible}
+          journeyObj={this.state.testCurrentJourney}
         />
 
         <CounterModal

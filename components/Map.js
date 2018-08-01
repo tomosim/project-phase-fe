@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, View } from "react-native";
 import Mapbox from "@mapbox/react-native-mapbox-gl";
+// import { lstat } from "fs";
 
 Mapbox.setAccessToken(
   "pk.eyJ1IjoidG9tb3NpbSIsImEiOiJjams4Zm9remQyY3M2M2xrY2dqcm1iY2s0In0.3wRLt9WKywixIt_htoH-8Q"
@@ -8,11 +9,74 @@ Mapbox.setAccessToken(
 
 export default class Map extends Component<{}> {
   state = {
-    coordinates: [
-      [-2.254, 53.48],
-      [-2.254, 53.58],
-      [-2.354, 53.48]
-    ]
+    coordinates: null,
+    midPoint: [-2.2426, 53.48],
+    zoom:10,
+  }
+
+  componentDidMount() {
+    let setZoom = 0;
+    let maxLat = 0;
+    let minLat = 0;
+    let maxLong = 0;
+    let minLong = 0;
+    journeyObjCoords = this.props.journeyObj.route.map((ping, index) => {
+      if (index === 0) {
+        maxLong = ping.long;
+        minLong = ping.long;
+        maxLat = ping.lat;
+        minLat = ping.lat;
+      } else {
+        if (ping.long > maxLong) {
+          maxLong = ping.long
+        }
+        if (ping.long < minLong) {
+          minLong = ping.long
+        }
+        if (ping.lat > maxLat) {
+          maxLat = ping.lat
+        }
+        if (ping.lat < minLat) {
+          minLat = ping.lat
+        }
+      }
+      return [
+        ping.long,
+        ping.lat,
+      ]
+    })
+
+    const avgLat = (((maxLat + 180) + (minLat + 180)) / 2) - 180
+    const avgLong = (((maxLong + 180) + (minLong + 180)) / 2) - 180
+    const centreCoords = [ avgLong, avgLat ]
+    
+    const latDiff = ((maxLat + 180) - (minLat + 180))
+    const longDiff = ((maxLong + 180) - (minLong + 180))
+    const coordDiff = latDiff >= longDiff ? latDiff : longDiff
+
+    if (coordDiff > 2) {
+      setZoom = 6
+    } else if (coordDiff > 1) {
+      setZoom = 7
+    } else if (coordDiff > 0.5) {
+      setZoom = 8
+    } else if (coordDiff > 0.25) {
+      setZoom = 9
+    } else if (coordDiff > 0.125) {
+      setZoom = 10
+    } else if (coordDiff > 0.0625) {
+      setZoom = 11
+    } else if (coordDiff > 0.03125) {
+      setZoom = 12
+    } else if (coordDiff > 0.015265) {
+      setZoom = 13
+    }
+
+    this.setState({
+      coordinates: journeyObjCoords,
+      zoom: setZoom,
+      midPoint: centreCoords,
+    })
   }
 
   renderAnnotation(counter) {
@@ -64,8 +128,8 @@ export default class Map extends Component<{}> {
       <View style={styles.container}>
         <Mapbox.MapView
           styleURL={Mapbox.StyleURL.Dark}
-          zoomLevel={10}
-          centerCoordinate={[-2.2426, 53.48]}
+          zoomLevel={this.state.zoom}
+          centerCoordinate={this.state.midPoint}
           style={styles.container}
           scrollEnabled={false}
           zoomEnabled={false}
@@ -74,7 +138,7 @@ export default class Map extends Component<{}> {
           logoEnabled={false}
           showUserLocation={true}
         >
-          {this.renderAnnotations()}
+          {this.state.coordinates && this.renderAnnotations()}
         </Mapbox.MapView>
       </View>
     );
@@ -86,16 +150,16 @@ const styles = StyleSheet.create({
     flex: 1
   },
   annotationContainer: {
-    width: 30,
-    height: 30,
+    width: 20,
+    height: 20,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "white",
     borderRadius: 15
   },
   annotationFill: {
-    width: 30,
-    height: 30,
+    width: 20,
+    height: 20,
     borderRadius: 15,
     backgroundColor: "orange",
     transform: [{ scale: 0.6 }]
