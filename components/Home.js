@@ -5,7 +5,7 @@ import TransportCard from "./TransportCard";
 import CounterModal from "./CounterModal";
 import MenuCard from "./MenuCard";
 import * as api from "../api";
-import UserStats from "./UserStats";
+import User from "./User";
 import JourneyOverviewModal from "./JourneyOverviewModal";
 
 class Home extends Component {
@@ -166,12 +166,12 @@ class Home extends Component {
         )}
 
         <View style={styles.container}>
+          <User user={this.props.user} />
           <TransportCard
             setModalVisible={(bool, transport) =>
               this.setModalVisible(bool, transport)
             }
           />
-          <UserStats user={this.props.user} />
         </View>
 
         <JourneyOverviewModal
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 9,
-    backgroundColor: "#F5FCFF"
+    backgroundColor: "#d0f5f3"
   }
 });
 export default Home;
