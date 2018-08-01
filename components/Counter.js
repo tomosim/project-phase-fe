@@ -6,27 +6,15 @@ class Counter extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      stopwatchStart: false,
       totalDuration: 90000
     };
-    this.toggleStopwatch = this.toggleStopwatch.bind(this);
-  }
-  componentDidUpdate(prevProps) {
-    if (prevProps !== this.props) {
-      this.toggleStopwatch();
-    }
-  }
-
-  toggleStopwatch() {
-    this.setState({
-      stopwatchStart: !this.state.stopwatchStart
-    });
   }
 
   render() {
+    console.dir(this.props)
     return (
       <View>
-        <Stopwatch start={this.state.stopwatchStart} options={options} />
+        <Stopwatch start={this.props.recording} options={options} />
       </View>
     );
   }
