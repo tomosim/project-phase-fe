@@ -17,29 +17,11 @@ class Home extends Component {
     locationPermission: "",
     coords: [],
     currentJourney: null, // this will be the journey that was just recorded
-    testCurrentJourney: {
-      "_id": "5b5f24aa795a65329889c970",
-      "route": [
-        {
-          "_id": "5b5f24aa795a65329889c972",
-          "lat": 53.3804217335176,
-          "long": -2.125,
-          "time": 1532959126826
-        },
-        {
-          "_id": "5b5f24aa795a65329889c972",
-          "lat": 53.3803217335176,
-          "long": -2.175,
-          "time": 1532959126826
-        }
-      ],
-      "mode": "walk",
-      "belongs_to": "5b5f24aa795a65329889c96c",
-      "__v": 0
-    },
+    journeyModalVisible: false,
+    updateStats: false,
   };
 
-  //geolocation
+  //geolocation----------------------
   getLatLong = () =>
     new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
@@ -95,7 +77,8 @@ class Home extends Component {
         const { newJourney } = res.data;
         this.setState({
           coords: [],
-          currentJourney: newJourney
+          currentJourney: newJourney,
+          journeyModalVisible: true
         });
       })
       .catch(console.log);
@@ -139,14 +122,14 @@ class Home extends Component {
     });
   }
 
-  //menu for logout button
+  //menu for logout button-----------------------------------------
   toggleMenu = () => {
     this.setState({
       menuVisible: !this.state.menuVisible
     });
   };
 
-  //counter modal visible and if recording
+  //counter modal visible and if recording------------------------------
   toggleRecording = () => {
     this.setState({ recording: !this.state.recording });
   };
@@ -157,9 +140,15 @@ class Home extends Component {
       : this.setState({ modalVisible: bool });
   };
 
-  setOverviewVisible = () => {
-    this.setState({ journeyModalVisible: !this.state.journeyModalVisible });
+  //map visibility----------------------------------------------------
+  setOverviewVisible = (bool) => {
+    this.setState({ journeyModalVisible: bool});
   };
+
+  //update stats -----------------------------------
+  setUpdatedStats = () => {
+    this.setState({ updateStats: !this.state.updateStats})    
+  }
 
   render() {
     return (
@@ -179,7 +168,11 @@ class Home extends Component {
         )}
 
         <View style={styles.container}>
-          <User user={this.props.user} />
+          <User 
+            user={this.props.user} 
+            updateStats={this.state.updateStats} 
+            setUpdatedStats={this.setUpdatedStats}
+          />
           <TransportCard
             setModalVisible={(bool, transport) =>
               this.setModalVisible(bool, transport)
@@ -187,11 +180,13 @@ class Home extends Component {
           />
         </View>
 
-        <JourneyOverviewModal
+        {this.state.journeyModalVisible && <JourneyOverviewModal
           journeyModalVisible={this.state.journeyModalVisible}
           setOverviewVisible={this.setOverviewVisible}
-          journeyObj={this.state.testCurrentJourney}
-        />
+          journeyObj={this.state.currentJourney}
+          updateStats={this.state.updateStats}
+          setUpdatedStats={this.setUpdatedStats}
+        />}
 
         <CounterModal
           recording={this.state.recording}

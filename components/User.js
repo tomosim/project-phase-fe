@@ -18,6 +18,13 @@ class User extends Component {
     this.getUserJourneys(this.props.user._id);
   }
 
+  componentDidUpdate(prevProps) {
+    if(this.props.updateStats) {
+      this.getUserJourneys(this.props.user._id)
+      this.props.setUpdatedStats(false)
+    }
+  }
+
   getUserJourneys = id => {
     api.getJourneysByUser(id).then(journeyData => {
       this.setState({

@@ -19,7 +19,10 @@ const JourneyOverviewModal = props => {
         </View>
         <View style={StyleSheet.body}>
           <Text>journey data goes here</Text>
-          <Button title="close" onPress={() => this.toggleModal()} />
+          <Button title="close" onPress={() => {
+            props.setUpdatedStats(true)
+            this.toggleModal()
+          }} />
         </View>
       </View>
     </Modal>
