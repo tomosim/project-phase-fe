@@ -1,10 +1,10 @@
 # project-phase-fe
 front end to our final northcoders project e-missions
 
-##Functionality:
+## Functionality:
 Users can log in or create an account, which is securely authenticated; they are then taken to homescreen which shows name, avatar, stats and modes of transport which can be clicked to start a journey. When a journey is recorded the user can see their journey displayed on a nap and stats, such as duration and CO2 saved. The user is then given points based on how much carbon they have saved on their journey compared to if they did the same trip in a car, which in a city would be the most carbon-intesive commute. 
 
-##Requirements:
+## Requirements:
   Dependencies:
     "@mapbox/react-native-mapbox-gl": "^6.1.2-beta2",
     "axios": "^0.18.0",
@@ -28,9 +28,9 @@ Users can log in or create an account, which is securely authenticated; they are
     "metro-core": "^0.42.2",
     "react-test-renderer": "16.4.1"
     
-##Installing and deploying
+## Installing and deploying
 
-##Built using
+## Built using
 React Native with Android Studio, Mapbox for map visualisation, Firebase Authentication for handling user log in and sign up functionality, Permissions package to ask access for geolocation, and StopWatch package to the timer functionality.
 
 Authors
