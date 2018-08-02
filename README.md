@@ -10,22 +10,22 @@ Users can log in or create an account, which is securely authenticated; they are
     "axios": "^0.18.0",
     "react": "16.4.1",
     "react-devtools": "^3.2.3",
-    "react-native": "0.56.0",
-    "react-native-animated-bar": "^0.2.0",
+    "react-native": "0.56.0", 
+    "react-native-animated-bar": "^0.2.0", 
     "react-native-firebase": "^4.3.8",
-    "react-native-permissions": "^1.1.1",
-    "react-native-stopwatch-timer": "0.0.20",
+    "react-native-permissions": "^1.1.1", 
+    "react-native-stopwatch-timer": "0.0.20", 
     "react-native-swiper-flatlist": "^1.0.7"
     
   Dev Dependencies:
-    "babel-jest": "23.4.0",
-    "babel-preset-react-native": "5.0.2",
-    "eslint": "^5.2.0",
+    "babel-jest": "23.4.0", 
+    "babel-preset-react-native": "5.0.2", 
+    "eslint": "^5.2.0", 
     "eslint-config-airbnb-base": "^13.0.0",
-    "eslint-plugin-import": "^2.13.0",
-    "jest": "23.4.1",
+    "eslint-plugin-import": "^2.13.0", 
+    "jest": "23.4.1", 
     "metro": "^0.42.2",
-    "metro-core": "^0.42.2",
+    "metro-core": "^0.42.2", 
     "react-test-renderer": "16.4.1"
     
 ## Installing and deploying
