@@ -42,7 +42,7 @@ class User extends Component {
           <Image style={styles.avatar} source={{ uri: `${avatar}` }} />
           <View>
             <Text style={styles.name}>{username.toUpperCase()}</Text>
-            <Text style={styles.rank}>{`RANK: Bamboo, bitches!`}</Text>
+            <Text style={styles.rank}>{`RANK: Bamboo!`}</Text>
           </View>
         </View>
         <View style={styles.body}>

@@ -4,14 +4,26 @@ import SwiperFlatList from "react-native-swiper-flatlist";
 import XPBar from "./XPBar";
 
 const UserJourneys = props => {
+  let { journeys } = props.journeyObj.data;
+
   const millisecondsInAWeek = 604800000;
   const millisecondsIn4Weeks = millisecondsInAWeek * 4;
   let totalKmTraveled;
   let xp;
+  let xpLastMission;
   let xpLast7Days;
   let xpLast4Weeks;
 
-  let { journeys } = props.journeyObj.data;
+  // Last mission stats
+  let lastMissonDistance = 0;
+  let lastMissionLargeCarCarbonOutput = 0;
+  let lastMissionCarbonYouSaved = 0;
+
+  let lastMissionMode = 'Your way';
+
+  let lastMissionDuration = 0;
+  let lastMissionDurationMins = 0;
+  let lastMissionDurationSeconds = 0;
 
   const distance = (lat1, long1, lat2, long2) => {
     const deg2rad = Math.PI / 180;
@@ -143,6 +155,20 @@ const UserJourneys = props => {
       }, 0)
       .toFixed(1);
 
+    // Last misson stats
+    lastMissonDistance = totalMissionDistance[totalMissionDistance.length - 1].toFixed(0);
+    lastMissionLargeCarCarbonOutput = (lastMissonDistance * 0.183).toFixed(3);
+    lastMissionCarbonYouSaved = totalPointsPerMissionArr[totalPointsPerMissionArr.length - 1].toFixed(3);
+    
+    lastMissionMode = journeys[journeys.length - 1].mode;
+
+    // To prevent app crash if returns undefined
+    if (journeys[journeys.length - 1].route[1] !== undefined) {
+      lastMissionDuration = journeys[journeys.length - 1].route[1].time - journeys[journeys.length - 1].route[0].time
+      lastMissionDurationMins = (lastMissionDuration / 1000 / 60).toFixed(0)
+      lastMissionDurationSeconds = (60 * ((lastMissionDuration / 1000 / 60) % 1)).toFixed(0);
+    }
+
     // xpLast7Days - all mission points from the last 7 days.
     xpLast7Days = totalPointsPerMissionArr
       .reduce((acc, scores, index) => {
@@ -192,6 +218,16 @@ const UserJourneys = props => {
           paginationActiveColor={"rgb(0, 220, 90)"}
           paginationDefaultColor={"rgb(200,200,200)"}
         >
+          {/* Last mission stats */}
+          <View style={styles.child}>
+            <Text style={[styles.missionText, { letterSpacing: 3 }]}>Last mission</Text>
+            <Text style={[styles.missionText, { letterSpacing: 3 }]}>{`Time: ${lastMissionDurationMins} min ${lastMissionDurationSeconds} sec`}</Text>
+            <Text style={[styles.missionText, { letterSpacing: 3 }]}>{`CO2 saved: ${lastMissionCarbonYouSaved} kgs`}</Text>
+            <Text style={[styles.missionText, { letterSpacing: 3 }]}>{`Car would have used: ${lastMissionLargeCarCarbonOutput} kgs`}</Text>
+            <Text style={[styles.missionText, { letterSpacing: 3 }]}>{`Distance: ${lastMissonDistance} kms`}</Text>
+            <Text style={[styles.missionText, { letterSpacing: 3 }]}>{`Mode: ${lastMissionMode}`}</Text>
+          </View>
+
           <View style={styles.child}>
             <Text style={[styles.text, { letterSpacing: 3 }]}>
               Total distance:
@@ -263,6 +299,10 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
+    fontFamily: "Righteous-Regular"
+  },
+  missionText: {
+    fontSize: 10,
     fontFamily: "Righteous-Regular"
   }
 });
