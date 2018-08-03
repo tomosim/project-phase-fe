@@ -54,21 +54,22 @@ export default class Map extends Component<{}> {
     const longDiff = ((maxLong + 180) - (minLong + 180))
     const coordDiff = latDiff >= longDiff ? latDiff : longDiff
     
-    if (coordDiff > 128) {
-      setZoom = 0
-    } else if (coordDiff > 64) {
-      setZoom = 1
-    } else if (coordDiff > 32) {
-      setZoom = 2
-    } else if (coordDiff > 16) {
-      setZoom = 3
-    } else if (coordDiff > 8) {
-      setZoom = 4
-    } else if (coordDiff > 4) {
-      setZoom = 5
-    } else if (coordDiff > 2) {
-      setZoom = 6
-    } else if (coordDiff > 1) {
+    // if (coordDiff > 128) {
+    //   setZoom = 0
+    // } else if (coordDiff > 64) {
+    //   setZoom = 1
+    // } else if (coordDiff > 32) {
+    //   setZoom = 2
+    // } else if (coordDiff > 16) {
+    //   setZoom = 3
+    // } else if (coordDiff > 8) {
+    //   setZoom = 4
+    // } else if (coordDiff > 4) {
+    //   setZoom = 5
+    // } else if (coordDiff > 2) {
+    //   setZoom = 6
+    // } else 
+    if (coordDiff > 1) {
       setZoom = 7
     } else if (coordDiff > 0.5) {
       setZoom = 8
@@ -86,7 +87,7 @@ export default class Map extends Component<{}> {
       setZoom = 14
     } else if (coordDiff > 0.00381625) {
       setZoom = 15
-    } else if (coordDiff > 0.001908125) {
+    } else {
       setZoom = 16
     }
 

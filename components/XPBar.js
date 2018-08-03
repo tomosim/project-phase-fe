@@ -4,7 +4,7 @@ import AnimatedBar from "react-native-animated-bar";
 
 export default class XPBar extends Component {
   state = {
-    progress: 0.5
+    progress: 0.2
   };
 
   componentDidUpdate(prevProps) {

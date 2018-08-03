@@ -18,7 +18,7 @@ const JourneyOverviewModal = props => {
           {props.journeyObj !== null && <Map journeyObj={props.journeyObj}/>}
         </View>
         <View style={StyleSheet.body}>
-          <Text>journey data goes here</Text>
+          {/* <Text>journey data goes here</Text> */}
           <Button title="close" onPress={() => {
             props.setUpdatedStats(true)
             this.toggleModal()
