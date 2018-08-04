@@ -1,11 +1,15 @@
 # project-phase-fe
-front end to our final northcoders project _e-missions_
+
+Front end to our final northcoders project _e-missions_
 
 ## About
 
 e-missions is a mobile app written in react native for android devices. The app allows users to track their jouneys and calculate their CO2 emissions depending on different modes of transport the user can choose from. In order to create a wide appeal, we have implemented a certain amount of gamification. Each mission untertaken gives the user points based on how enviromentally friendly their method of transport was. Points are calculated by comparing their CO2 actually produced with the CO2 that would have been produced by a petrol car travelling the same journey.
 
-![screenshot](https://imgur.com/IJZm7Ba)
+<img src="https://imgur.com/hpSYNVX.png" alt="screenshot" width="200px"/>
+<img src="https://imgur.com/IJZm7Ba.png" alt="screenshot" width="200px"/>
+<img src="https://imgur.com/ggXCnur.png" alt="screenshot" width="200px"/>
+
 
 ## Functionality:
 
@@ -46,11 +50,14 @@ Dependencies:
 3. `git remote set-url <YOUR FORKED REPO URL HERE>`
 4. `git pull origin master` to merge 
 5. `npm i`
-6. ensure you have an android (v5+) device running (an emulator or a [physical device connected via USB](https://facebook.github.io/react-native/docs/running-on-device).
+6. ensure you have an android (v5+) device running (an emulator or a [physical device connected via USB](https://facebook.github.io/react-native/docs/running-on-device)).
 7. `react-native run-android`
 
 ## Built using
-React Native with Android Studio, Mapbox for map visualisation, Firebase Authentication for handling user log in and sign up functionality, Permissions package to ask access for geolocation, and StopWatch package to the timer functionality.
+React Native with Android Studio, MapboxGL for map visualisation, Firebase Authentication for handling user log in and sign up functionality, Permissions package to ask access for geolocation, and StopWatch package to the timer functionality.
 
 Authors
-Howard (https://github.com/HAshton92), Vel (https://github.com/antariess), Jamie (https://github.com/jamiemetca), Tom (https://github.com/tomosim)
+* [Howard](https://github.com/HAshton92) 
+* [Vel](https://github.com/antariess) 
+* [Jamie](https://github.com/jamiemetca) 
+* [Tom](https://github.com/tomosim)
